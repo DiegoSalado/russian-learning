@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privet — Aprende ruso escuchando</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">Privet<em>.</em></div>
+</div>
+
+<section class="hero">
+  <p class="eyebrow">Русский · Pronunciación en vivo</p>
+  <h1>Pasa el cursor.<br><span class="accent">Escucha.</span><br>Aprende ruso.</h1>
+  <p class="lead">Cada palabra rusa en este sitio tiene voz propia. Elegí una lección para empezar — vocabulario, gramática y una conversación real, todo con audio.</p>
+</section>
+
+<section class="section section-paper reveal" id="lessons">
+  <p class="eyebrow">Niveles</p>
+  <h2>Selecciona tu nivel</h2>
+  <p class="section-note" id="levelObjective"></p>
+  <div class="level-tabs" id="levelTabs"></div>
+  <div class="lesson-grid" id="lessonGrid"></div>
+</section>
+
+<footer>
+  <p>La voz se genera con la síntesis de voz de tu navegador (Web Speech API). Funciona mejor en Chrome o Edge, donde usa voces de red de mayor calidad.</p>
+</footer>
+
+<script type="module">
+  import { levels, lessonsIndex } from "./content/lessons-index.js";
+
+  const tabsEl = document.getElementById("levelTabs");
+  const objectiveEl = document.getElementById("levelObjective");
+  const grid = document.getElementById("lessonGrid");
+
+  function renderLevel(levelCode) {
+    const level = levels.find((l) => l.code === levelCode);
+    objectiveEl.textContent = level.objective;
+
+    tabsEl.querySelectorAll(".level-tab").forEach((tab) => {
+      tab.classList.toggle("active", tab.dataset.level === levelCode);
+    });
+
+    grid.innerHTML = "";
+    lessonsIndex
+      .filter((item) => item.level === levelCode)
+      .sort((a, b) => a.order - b.order)
+      .forEach((item) => {
+        const a = document.createElement("a");
+        a.className = "lesson-card";
+        a.href = `lecciones/${item.file}`;
+        a.innerHTML = `
+          <span class="lesson-order">Lección ${String(item.order).padStart(2, "0")}</span>
+          <h3>${item.title}</h3>
+          <p class="lesson-summary">${item.summary}</p>
+          <span class="lesson-level">${item.level}</span>
+        `;
+        grid.appendChild(a);
+      });
+  }
+
+  levels.forEach((level) => {
+    const tab = document.createElement("button");
+    tab.className = "level-tab";
+    tab.type = "button";
+    tab.dataset.level = level.code;
+    tab.textContent = level.label;
+    tab.addEventListener("click", () => renderLevel(level.code));
+    tabsEl.appendChild(tab);
+  });
+
+  renderLevel(levels[0].code);
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in-view");
+          io.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.12 }
+  );
+  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+</script>
+
+</body>
+</html>
