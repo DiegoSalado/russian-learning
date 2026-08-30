@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vocabulario — Privet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-nav">
+    <a class="breadcrumb" href="index.html">← Inicio</a>
+  </div>
+  <div class="logo">Privet<em>.</em></div>
+</div>
+
+<div id="vocab-root">
+  <section class="hero">
+    <p class="eyebrow">Vocabulario · Diccionario interactivo</p>
+    <h1>Buscá cualquier <span class="accent">palabra</span>.</h1>
+    <p class="lead">Escribí en ruso o en español. Buscá una forma declinada o conjugada (ej. «домами») y vas a encontrar la palabra principal con todas sus formas.</p>
+  </section>
+
+  <div class="mode-tabs" id="vocabModeTabs">
+    <button class="mode-tab active" type="button" data-mode="search">🔎 Buscador</button>
+    <button class="mode-tab" type="button" data-mode="flashcards">🃏 Flashcards</button>
+  </div>
+
+  <section class="section section-paper" id="vocab-search">
+    <p class="eyebrow">Buscador</p>
+    <h2>~680 palabras, de A1 a C2</h2>
+    <div class="vocab-search-bar">
+      <input type="search" id="vocabInput" placeholder="Buscar en ruso o español… (ej. домами, casa)" aria-label="Buscar palabra">
+    </div>
+    <div class="level-tabs" id="vocabLevelTabs"></div>
+    <div class="level-tabs pos-tabs" id="vocabPosTabs"></div>
+    <p class="section-note" id="vocabResultCount"></p>
+    <div class="vocab-grid" id="vocabGrid"></div>
+  </section>
+
+  <section class="section section-board" id="vocab-flashcards" hidden>
+    <p class="eyebrow">Flashcards</p>
+    <h2>Practicá de memoria</h2>
+    <div id="flashcardsRoot"></div>
+  </section>
+
+  <footer>
+    <p>La voz se genera con la síntesis de voz de tu navegador (Web Speech API). Pasá el cursor por cualquier palabra rusa —incluidas sus formas declinadas o conjugadas— para escuchar su pronunciación.</p>
+  </footer>
+</div>
+
+<script type="module">
+  import { vocabulary } from "./content/vocabulary.js";
+  import { renderVocabularyPage } from "./assets/js/render-vocabulary.js";
+  import { renderFlashcardsMode } from "./assets/js/render-flashcards.js";
+
+  renderVocabularyPage(vocabulary);
+
+  const searchSection = document.getElementById("vocab-search");
+  const flashcardsSection = document.getElementById("vocab-flashcards");
+  const flashcardsRoot = document.getElementById("flashcardsRoot");
+  let flashcardsStarted = false;
+
+  document.querySelectorAll(".mode-tab").forEach((tab) => {
+    tab.addEventListener("click", () => {
+      document.querySelectorAll(".mode-tab").forEach((t) => t.classList.toggle("active", t === tab));
+      const mode = tab.dataset.mode;
+      searchSection.hidden = mode !== "search";
+      flashcardsSection.hidden = mode !== "flashcards";
+      if (mode === "flashcards" && !flashcardsStarted) {
+        flashcardsStarted = true;
+        renderFlashcardsMode(vocabulary, flashcardsRoot);
+      }
+    });
+  });
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in-view");
+          io.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.12 }
+  );
+  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+</script>
+
+</body>
+</html>

@@ -13,6 +13,7 @@
 
 <div class="topbar">
   <div class="logo">Privet<em>.</em></div>
+  <a class="breadcrumb" href="vocabulary.html">Vocabulario →</a>
 </div>
 
 <section class="hero">
@@ -49,21 +50,26 @@
     });
 
     grid.innerHTML = "";
-    lessonsIndex
-      .filter((item) => item.level === levelCode)
-      .sort((a, b) => a.order - b.order)
-      .forEach((item) => {
-        const a = document.createElement("a");
-        a.className = "lesson-card";
-        a.href = `lecciones/${item.file}`;
-        a.innerHTML = `
-          <span class="lesson-order">Lección ${String(item.order).padStart(2, "0")}</span>
-          <h3>${item.title}</h3>
-          <p class="lesson-summary">${item.summary}</p>
-          <span class="lesson-level">${item.level}</span>
-        `;
-        grid.appendChild(a);
-      });
+    const items = lessonsIndex.filter((item) => item.level === levelCode).sort((a, b) => a.order - b.order);
+    if (items.length === 0) {
+      const note = document.createElement("p");
+      note.className = "section-note";
+      note.textContent = "Todavía no hay lecciones para este nivel — mientras tanto, explorá el vocabulario de este nivel en la sección Vocabulario.";
+      grid.appendChild(note);
+      return;
+    }
+    items.forEach((item) => {
+      const a = document.createElement("a");
+      a.className = "lesson-card";
+      a.href = `lessons/${item.file}`;
+      a.innerHTML = `
+        <span class="lesson-order">Lección ${String(item.order).padStart(2, "0")}</span>
+        <h3>${item.title}</h3>
+        <p class="lesson-summary">${item.summary}</p>
+        <span class="lesson-level">${item.level}</span>
+      `;
+      grid.appendChild(a);
+    });
   }
 
   levels.forEach((level) => {

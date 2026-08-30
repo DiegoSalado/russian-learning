@@ -1,11 +1,11 @@
 import { speak, getRate, toggleRate, supportsSpeech } from "./speech.js";
 import { levels, lessonsIndex } from "../../content/lessons-index.js";
 
-function waveHTML() {
+export function waveHTML() {
   return '<span class="wave"><span></span><span></span><span></span><span></span></span>';
 }
 
-function wrapWords(text) {
+export function wrapWords(text) {
   return text
     .split(" ")
     .map((tok) => {
@@ -495,6 +495,154 @@ function renderLessonsMenu(currentLevel) {
   return wrap;
 }
 
+function renderFillBlankSection(root, fillBlank, number) {
+  if (!fillBlank) return;
+  const section = document.createElement("section");
+  section.className = "section section-paper reveal";
+  section.id = "fillblank";
+  section.innerHTML = `
+    <p class="eyebrow">${String(number).padStart(2, "0")} — Completa las frases</p>
+    <h2>${fillBlank.title}</h2>
+    <p class="section-note">${fillBlank.instructions ?? "Arrastrá cada palabra hasta su hueco, o hacé click en la palabra y después en el hueco."}</p>
+    <div class="fillblank-bank"></div>
+    <div class="fillblank-sentences"></div>
+    <div class="fillblank-actions">
+      <button type="button" class="fillblank-btn fillblank-check">Comprobar</button>
+      <button type="button" class="fillblank-btn-ghost fillblank-reset">Reiniciar</button>
+    </div>
+    <p class="fillblank-feedback" aria-live="polite"></p>
+  `;
+
+  const bankEl = section.querySelector(".fillblank-bank");
+  const sentencesEl = section.querySelector(".fillblank-sentences");
+  const feedbackEl = section.querySelector(".fillblank-feedback");
+  let selectedChip = null;
+
+  fillBlank.sentences.forEach((s, i) => {
+    const p = document.createElement("p");
+    p.className = "fillblank-sentence";
+    const before = document.createElement("span");
+    before.textContent = s.before;
+    const blank = document.createElement("span");
+    blank.className = "fillblank-blank";
+    blank.dataset.answer = s.answer;
+    blank.dataset.index = String(i);
+    blank.tabIndex = 0;
+    blank.setAttribute("role", "button");
+    blank.setAttribute("aria-label", "Espacio para completar, tocá para elegir una palabra");
+    blank.textContent = "______";
+    const after = document.createElement("span");
+    after.textContent = s.after;
+    p.appendChild(before);
+    p.appendChild(blank);
+    p.appendChild(after);
+    if (s.es) {
+      const es = document.createElement("span");
+      es.className = "fillblank-es";
+      es.textContent = ` (${s.es})`;
+      p.appendChild(es);
+    }
+    sentencesEl.appendChild(p);
+  });
+
+  function buildBank() {
+    bankEl.innerHTML = "";
+    fillBlank.wordBank.forEach((w) => {
+      const chip = document.createElement("div");
+      chip.className = "fillblank-chip";
+      chip.draggable = true;
+      chip.tabIndex = 0;
+      chip.dataset.word = w.ru;
+      chip.innerHTML = wrapWords(w.ru);
+      chip.addEventListener("click", () => {
+        if (selectedChip === chip) {
+          chip.classList.remove("selected");
+          selectedChip = null;
+        } else {
+          if (selectedChip) selectedChip.classList.remove("selected");
+          selectedChip = chip;
+          chip.classList.add("selected");
+        }
+      });
+      chip.addEventListener("dragstart", (e) => {
+        e.dataTransfer.setData("text/plain", w.ru);
+      });
+      bankEl.appendChild(chip);
+    });
+  }
+  buildBank();
+
+  // Las palabras del banco son reutilizables: una misma palabra puede
+  // completar varios huecos (ej. здесь/там puede repetirse en distintas
+  // frases), así que no se deshabilita ni se "gasta" al colocarla.
+  function placeWord(blank, word) {
+    blank.innerHTML = wrapWords(word);
+    blank.classList.add("filled");
+    blank.classList.remove("correct", "incorrect");
+    blank.dataset.filled = word;
+    if (selectedChip) {
+      selectedChip.classList.remove("selected");
+      selectedChip = null;
+    }
+  }
+
+  function clearBlank(blank) {
+    if (!blank.dataset.filled) return;
+    delete blank.dataset.filled;
+    blank.classList.remove("filled", "correct", "incorrect");
+    blank.textContent = "______";
+  }
+
+  sentencesEl.querySelectorAll(".fillblank-blank").forEach((blank) => {
+    blank.addEventListener("click", () => {
+      if (blank.dataset.filled) {
+        clearBlank(blank);
+        return;
+      }
+      if (selectedChip) placeWord(blank, selectedChip.dataset.word);
+    });
+    blank.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        blank.click();
+      }
+    });
+    blank.addEventListener("dragover", (e) => e.preventDefault());
+    blank.addEventListener("drop", (e) => {
+      e.preventDefault();
+      const word = e.dataTransfer.getData("text/plain");
+      if (!word) return;
+      if (blank.dataset.filled) clearBlank(blank);
+      placeWord(blank, word);
+    });
+  });
+
+  section.querySelector(".fillblank-check").addEventListener("click", () => {
+    const blanks = sentencesEl.querySelectorAll(".fillblank-blank");
+    let correctCount = 0;
+    blanks.forEach((blank) => {
+      const filled = blank.dataset.filled;
+      const isCorrect = !!filled && filled === blank.dataset.answer;
+      blank.classList.toggle("correct", isCorrect);
+      blank.classList.toggle("incorrect", !!filled && !isCorrect);
+      if (isCorrect) correctCount++;
+    });
+    feedbackEl.textContent = `${correctCount} / ${blanks.length} correctas.`;
+    feedbackEl.className =
+      "fillblank-feedback " + (correctCount === blanks.length ? "correct" : "incorrect");
+  });
+
+  section.querySelector(".fillblank-reset").addEventListener("click", () => {
+    sentencesEl.querySelectorAll(".fillblank-blank").forEach(clearBlank);
+    buildBank();
+    selectedChip = null;
+    feedbackEl.textContent = "";
+    feedbackEl.className = "fillblank-feedback";
+  });
+
+  root.appendChild(section);
+}
+
 function renderTopbar(root, lesson) {
   const topbar = document.createElement("div");
   topbar.className = "topbar";
@@ -506,6 +654,12 @@ function renderTopbar(root, lesson) {
   back.textContent = "← Volver a lecciones";
   nav.appendChild(back);
   nav.appendChild(renderLessonsMenu(lesson?.level));
+
+  const vocabLink = document.createElement("a");
+  vocabLink.className = "breadcrumb";
+  vocabLink.href = "../vocabulary.html";
+  vocabLink.textContent = "Vocabulario";
+  nav.appendChild(vocabLink);
 
   const speedToggle = document.createElement("button");
   speedToggle.className = "speed-toggle";
@@ -563,6 +717,7 @@ export function renderLesson(lesson) {
   renderGrammarSection(root, lesson.grammarPoint, n++);
   renderConversationSection(root, lesson.conversation, n++);
   renderReadingSection(root, lesson.reading, n++);
+  if (lesson.fillBlank) renderFillBlankSection(root, lesson.fillBlank, n++);
   renderFooter(root);
   renderSpeechNotice(root);
   setupScrollReveal(root);
