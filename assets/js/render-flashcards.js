@@ -1,7 +1,7 @@
 import { speak } from "./speech.js";
 import { wrapWords } from "./render-lesson.js";
 import { levels } from "../../content/lessons-index.js";
-import { posOptions, POS_LABELS } from "./render-vocabulary.js";
+import { posOptions, POS_LABELS, filterGroup } from "./render-vocabulary.js";
 import {
   loadProgress,
   getWordProgress,
@@ -24,9 +24,7 @@ function normalize(s) {
 }
 
 function pickSessionWords(vocabulary, level, pos, progressData, count) {
-  const pool = vocabulary.filter(
-    (w) => w.level === level && (pos === "Todos" || w.pos === pos) && !w.excludeFromFlashcards
-  );
+  const pool = vocabulary.filter((w) => w.level === level && (pos === "Todos" || filterGroup(w) === pos));
   const scored = pool.map((w) => ({ word: w, score: priorityScore(getWordProgress(progressData, w.id)) }));
   const maxScore = Math.max(0, ...scored.map((s) => s.score));
   const ordered = [];
@@ -46,7 +44,7 @@ export function renderFlashcardsMode(vocabulary, container) {
 
   function levelWordCount(code) {
     return vocabulary.filter(
-      (w) => w.level === code && (activePos === "Todos" || w.pos === activePos) && !w.excludeFromFlashcards
+      (w) => w.level === code && (activePos === "Todos" || filterGroup(w) === activePos)
     ).length;
   }
 

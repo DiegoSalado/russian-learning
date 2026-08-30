@@ -3,6 +3,9 @@ import { levels } from "./../../content/lessons-index.js";
 
 export const POS_LABELS = {
   noun: "Sustantivo",
+  profession: "Profesión",
+  family: "Familia",
+  country: "País",
   verb: "Verbo",
   adjective: "Adjetivo",
   pronoun: "Pronombre",
@@ -13,9 +16,17 @@ export const POS_LABELS = {
   interjection: "Interjección",
 };
 
+// El "grupo de filtro" de una palabra es su categoría temática si la tiene
+// (profession/family/country), y si no, su categoría gramatical (pos).
+// Esto separa profesiones/familia/países del cajón genérico "Sustantivo"
+// sin perder la info gramatical real de cada palabra.
+export function filterGroup(entry) {
+  return entry.category ?? entry.pos;
+}
+
 export function posOptions(vocabulary) {
-  const present = new Set(vocabulary.map((w) => w.pos));
-  return Object.keys(POS_LABELS).filter((pos) => present.has(pos));
+  const present = new Set(vocabulary.map((w) => filterGroup(w)));
+  return Object.keys(POS_LABELS).filter((key) => present.has(key));
 }
 
 function normalize(s) {
@@ -76,7 +87,7 @@ function searchVocabulary(vocabulary, formIndex, queryRaw, levelFilter, posFilte
     list = list.filter((r) => r.entry.level === levelFilter);
   }
   if (posFilter && posFilter !== "Todos") {
-    list = list.filter((r) => r.entry.pos === posFilter);
+    list = list.filter((r) => filterGroup(r.entry) === posFilter);
   }
   list.sort((a, b) => b.score - a.score || a.entry.lemma.localeCompare(b.entry.lemma, "ru"));
   return list;
@@ -89,7 +100,7 @@ function renderVocabCard(result) {
 
   const head = document.createElement("div");
   head.className = "vocab-card-head";
-  const posLabel = POS_LABELS[entry.pos] ?? entry.pos;
+  const posLabel = POS_LABELS[filterGroup(entry)] ?? entry.pos;
   head.innerHTML = `
     <span class="vocab-pos">${posLabel}${entry.gender ? " · " + entry.gender : ""}${entry.aspect ? " · " + entry.aspect : ""}</span>
     <span class="lesson-level">${entry.level}</span>

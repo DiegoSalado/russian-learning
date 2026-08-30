@@ -850,144 +850,6 @@ export const words = [
     ],
   },
   {
-    id: "dedushka",
-    lemma: "дедушка",
-    transliteration: "dedushka",
-    es: "abuelo",
-    level: "A2",
-    pos: "noun",
-    gender: "masculino",
-    forms: [
-      { form: "дедушка", transliteration: "dedushka", label: "Singular · Nominativo" },
-      { form: "дедушки", transliteration: "dedushki", label: "Singular · Genitivo" },
-      { form: "дедушке", transliteration: "dedushke", label: "Singular · Dativo" },
-      { form: "дедушку", transliteration: "dedushku", label: "Singular · Acusativo" },
-      { form: "дедушкой", transliteration: "dedushkoy", label: "Singular · Instrumental" },
-      { form: "дедушке", transliteration: "dedushke", label: "Singular · Prepositivo" },
-      { form: "дедушки", transliteration: "dedushki", label: "Plural · Nominativo" },
-      { form: "дедушек", transliteration: "dedushek", label: "Plural · Genitivo" },
-      { form: "дедушкам", transliteration: "dedushkam", label: "Plural · Dativo" },
-      { form: "дедушек", transliteration: "dedushek", label: "Plural · Acusativo" },
-      { form: "дедушками", transliteration: "dedushkami", label: "Plural · Instrumental" },
-      { form: "дедушках", transliteration: "dedushkakh", label: "Plural · Prepositivo" },
-    ],
-  },
-  {
-    id: "babushka",
-    lemma: "бабушка",
-    transliteration: "babushka",
-    es: "abuela",
-    level: "A2",
-    pos: "noun",
-    gender: "femenino",
-    forms: [
-      { form: "бабушка", transliteration: "babushka", label: "Singular · Nominativo" },
-      { form: "бабушки", transliteration: "babushki", label: "Singular · Genitivo" },
-      { form: "бабушке", transliteration: "babushke", label: "Singular · Dativo" },
-      { form: "бабушку", transliteration: "babushku", label: "Singular · Acusativo" },
-      { form: "бабушкой", transliteration: "babushkoy", label: "Singular · Instrumental" },
-      { form: "бабушке", transliteration: "babushke", label: "Singular · Prepositivo" },
-      { form: "бабушки", transliteration: "babushki", label: "Plural · Nominativo" },
-      { form: "бабушек", transliteration: "babushek", label: "Plural · Genitivo" },
-      { form: "бабушкам", transliteration: "babushkam", label: "Plural · Dativo" },
-      { form: "бабушек", transliteration: "babushek", label: "Plural · Acusativo" },
-      { form: "бабушками", transliteration: "babushkami", label: "Plural · Instrumental" },
-      { form: "бабушках", transliteration: "babushkakh", label: "Plural · Prepositivo" },
-    ],
-  },
-  {
-    id: "dyadya",
-    lemma: "дядя",
-    transliteration: "dyadya",
-    es: "tío",
-    level: "A2",
-    pos: "noun",
-    gender: "masculino",
-    forms: [
-      { form: "дядя", transliteration: "dyadya", label: "Singular · Nominativo" },
-      { form: "дяди", transliteration: "dyadi", label: "Singular · Genitivo" },
-      { form: "дяде", transliteration: "dyade", label: "Singular · Dativo" },
-      { form: "дядю", transliteration: "dyadyu", label: "Singular · Acusativo" },
-      { form: "дядей", transliteration: "dyadey", label: "Singular · Instrumental" },
-      { form: "дяде", transliteration: "dyade", label: "Singular · Prepositivo" },
-      { form: "дяди", transliteration: "dyadi", label: "Plural · Nominativo" },
-      { form: "дядей", transliteration: "dyadey", label: "Plural · Genitivo" },
-      { form: "дядям", transliteration: "dyadyam", label: "Plural · Dativo" },
-      { form: "дядей", transliteration: "dyadey", label: "Plural · Acusativo" },
-      { form: "дядями", transliteration: "dyadyami", label: "Plural · Instrumental" },
-      { form: "дядях", transliteration: "dyadyakh", label: "Plural · Prepositivo" },
-    ],
-  },
-  {
-    id: "tyotya",
-    lemma: "тётя",
-    transliteration: "tyotya",
-    es: "tía",
-    level: "A2",
-    pos: "noun",
-    gender: "femenino",
-    forms: [
-      { form: "тётя", transliteration: "tyotya", label: "Singular · Nominativo" },
-      { form: "тёти", transliteration: "tyoti", label: "Singular · Genitivo" },
-      { form: "тёте", transliteration: "tyote", label: "Singular · Dativo" },
-      { form: "тётю", transliteration: "tyotyu", label: "Singular · Acusativo" },
-      { form: "тётей", transliteration: "tyotey", label: "Singular · Instrumental" },
-      { form: "тёте", transliteration: "tyote", label: "Singular · Prepositivo" },
-      { form: "тёти", transliteration: "tyoti", label: "Plural · Nominativo" },
-      { form: "тётей", transliteration: "tyotey", label: "Plural · Genitivo" },
-      { form: "тётям", transliteration: "tyotyam", label: "Plural · Dativo" },
-      { form: "тётей", transliteration: "tyotey", label: "Plural · Acusativo" },
-      { form: "тётями", transliteration: "tyotyami", label: "Plural · Instrumental" },
-      { form: "тётях", transliteration: "tyotyakh", label: "Plural · Prepositivo" },
-    ],
-  },
-  {
-    id: "vnuk",
-    lemma: "внук",
-    transliteration: "vnuk",
-    es: "nieto",
-    level: "A2",
-    pos: "noun",
-    gender: "masculino",
-    forms: [
-      { form: "внук", transliteration: "vnuk", label: "Singular · Nominativo" },
-      { form: "внука", transliteration: "vnuka", label: "Singular · Genitivo" },
-      { form: "внуку", transliteration: "vnuku", label: "Singular · Dativo" },
-      { form: "внука", transliteration: "vnuka", label: "Singular · Acusativo" },
-      { form: "внуком", transliteration: "vnukom", label: "Singular · Instrumental" },
-      { form: "внуке", transliteration: "vnuke", label: "Singular · Prepositivo" },
-      { form: "внуки", transliteration: "vnuki", label: "Plural · Nominativo" },
-      { form: "внуков", transliteration: "vnukov", label: "Plural · Genitivo" },
-      { form: "внукам", transliteration: "vnukam", label: "Plural · Dativo" },
-      { form: "внуков", transliteration: "vnukov", label: "Plural · Acusativo" },
-      { form: "внуками", transliteration: "vnukami", label: "Plural · Instrumental" },
-      { form: "внуках", transliteration: "vnukakh", label: "Plural · Prepositivo" },
-    ],
-  },
-  {
-    id: "vnuchka",
-    lemma: "внучка",
-    transliteration: "vnuchka",
-    es: "nieta",
-    level: "A2",
-    pos: "noun",
-    gender: "femenino",
-    forms: [
-      { form: "внучка", transliteration: "vnuchka", label: "Singular · Nominativo" },
-      { form: "внучки", transliteration: "vnuchki", label: "Singular · Genitivo" },
-      { form: "внучке", transliteration: "vnuchke", label: "Singular · Dativo" },
-      { form: "внучку", transliteration: "vnuchku", label: "Singular · Acusativo" },
-      { form: "внучкой", transliteration: "vnuchkoy", label: "Singular · Instrumental" },
-      { form: "внучке", transliteration: "vnuchke", label: "Singular · Prepositivo" },
-      { form: "внучки", transliteration: "vnuchki", label: "Plural · Nominativo" },
-      { form: "внучек", transliteration: "vnuchek", label: "Plural · Genitivo" },
-      { form: "внучкам", transliteration: "vnuchkam", label: "Plural · Dativo" },
-      { form: "внучек", transliteration: "vnuchek", label: "Plural · Acusativo" },
-      { form: "внучками", transliteration: "vnuchkami", label: "Plural · Instrumental" },
-      { form: "внучках", transliteration: "vnuchkakh", label: "Plural · Prepositivo" },
-    ],
-  },
-  {
     id: "muzh",
     lemma: "муж",
     transliteration: "muzh",
@@ -1008,29 +870,6 @@ export const words = [
       { form: "мужей", transliteration: "muzhey", label: "Plural · Acusativo" },
       { form: "мужьями", transliteration: "muzh'yami", label: "Plural · Instrumental" },
       { form: "мужьях", transliteration: "muzh'yakh", label: "Plural · Prepositivo" },
-    ],
-  },
-  {
-    id: "zhena",
-    lemma: "жена",
-    transliteration: "zhena",
-    es: "esposa",
-    level: "A2",
-    pos: "noun",
-    gender: "femenino",
-    forms: [
-      { form: "жена", transliteration: "zhena", label: "Singular · Nominativo" },
-      { form: "жены", transliteration: "zheny", label: "Singular · Genitivo" },
-      { form: "жене", transliteration: "zhene", label: "Singular · Dativo" },
-      { form: "жену", transliteration: "zhenu", label: "Singular · Acusativo" },
-      { form: "женой", transliteration: "zhenoy", label: "Singular · Instrumental" },
-      { form: "жене", transliteration: "zhene", label: "Singular · Prepositivo" },
-      { form: "жёны", transliteration: "zhyony", label: "Plural · Nominativo" },
-      { form: "жён", transliteration: "zhyon", label: "Plural · Genitivo" },
-      { form: "жёнам", transliteration: "zhyonam", label: "Plural · Dativo" },
-      { form: "жён", transliteration: "zhyon", label: "Plural · Acusativo" },
-      { form: "жёнами", transliteration: "zhyonami", label: "Plural · Instrumental" },
-      { form: "жёнах", transliteration: "zhyonakh", label: "Plural · Prepositivo" },
     ],
   },
   {
@@ -2493,7 +2332,9 @@ export const words = [
     es: "recientemente",
     level: "A2",
     pos: "adverb",
-    forms: [{ form: "недавно", transliteration: "nedavno", label: "Forma única" }],
+    forms: [
+      { form: "недавно", transliteration: "nedavno", label: "Forma única" },
+    ],
   },
   {
     id: "davno",
@@ -2502,7 +2343,9 @@ export const words = [
     es: "hace mucho tiempo",
     level: "A2",
     pos: "adverb",
-    forms: [{ form: "давно", transliteration: "davno", label: "Forma única" }],
+    forms: [
+      { form: "давно", transliteration: "davno", label: "Forma única" },
+    ],
   },
   {
     id: "skoro",
@@ -2511,7 +2354,9 @@ export const words = [
     es: "pronto",
     level: "A2",
     pos: "adverb",
-    forms: [{ form: "скоро", transliteration: "skoro", label: "Forma única" }],
+    forms: [
+      { form: "скоро", transliteration: "skoro", label: "Forma única" },
+    ],
   },
   {
     id: "uzhe",
@@ -2520,7 +2365,9 @@ export const words = [
     es: "ya",
     level: "A2",
     pos: "adverb",
-    forms: [{ form: "уже", transliteration: "uzhe", label: "Forma única" }],
+    forms: [
+      { form: "уже", transliteration: "uzhe", label: "Forma única" },
+    ],
   },
   {
     id: "eshcho",
@@ -2529,7 +2376,9 @@ export const words = [
     es: "todavía / aún",
     level: "A2",
     pos: "adverb",
-    forms: [{ form: "ещё", transliteration: "yeshcho", label: "Forma única" }],
+    forms: [
+      { form: "ещё", transliteration: "yeshcho", label: "Forma única" },
+    ],
   },
   {
     id: "vdrug",
@@ -2538,7 +2387,9 @@ export const words = [
     es: "de repente",
     level: "A2",
     pos: "adverb",
-    forms: [{ form: "вдруг", transliteration: "vdrug", label: "Forma única" }],
+    forms: [
+      { form: "вдруг", transliteration: "vdrug", label: "Forma única" },
+    ],
   },
   {
     id: "nakonets",
@@ -2547,7 +2398,9 @@ export const words = [
     es: "finalmente",
     level: "A2",
     pos: "adverb",
-    forms: [{ form: "наконец", transliteration: "nakonets", label: "Forma única" }],
+    forms: [
+      { form: "наконец", transliteration: "nakonets", label: "Forma única" },
+    ],
   },
   {
     id: "obychno",
@@ -2556,7 +2409,9 @@ export const words = [
     es: "normalmente",
     level: "A2",
     pos: "adverb",
-    forms: [{ form: "обычно", transliteration: "obychno", label: "Forma única" }],
+    forms: [
+      { form: "обычно", transliteration: "obychno", label: "Forma única" },
+    ],
   },
   {
     id: "inogda",
@@ -2565,7 +2420,9 @@ export const words = [
     es: "a veces",
     level: "A2",
     pos: "adverb",
-    forms: [{ form: "иногда", transliteration: "inogda", label: "Forma única" }],
+    forms: [
+      { form: "иногда", transliteration: "inogda", label: "Forma única" },
+    ],
   },
   {
     id: "chasto",
@@ -2574,7 +2431,9 @@ export const words = [
     es: "a menudo",
     level: "A2",
     pos: "adverb",
-    forms: [{ form: "часто", transliteration: "chasto", label: "Forma única" }],
+    forms: [
+      { form: "часто", transliteration: "chasto", label: "Forma única" },
+    ],
   },
   {
     id: "redko",
@@ -2583,7 +2442,9 @@ export const words = [
     es: "raramente",
     level: "A2",
     pos: "adverb",
-    forms: [{ form: "редко", transliteration: "redko", label: "Forma única" }],
+    forms: [
+      { form: "редко", transliteration: "redko", label: "Forma única" },
+    ],
   },
   {
     id: "vmeste",
@@ -2592,7 +2453,9 @@ export const words = [
     es: "juntos",
     level: "A2",
     pos: "adverb",
-    forms: [{ form: "вместе", transliteration: "vmeste", label: "Forma única" }],
+    forms: [
+      { form: "вместе", transliteration: "vmeste", label: "Forma única" },
+    ],
   },
   {
     id: "snova",
@@ -2601,7 +2464,9 @@ export const words = [
     es: "de nuevo",
     level: "A2",
     pos: "adverb",
-    forms: [{ form: "снова", transliteration: "snova", label: "Forma única" }],
+    forms: [
+      { form: "снова", transliteration: "snova", label: "Forma única" },
+    ],
   },
   {
     id: "takzhe",
@@ -2610,7 +2475,9 @@ export const words = [
     es: "también",
     level: "A2",
     pos: "adverb",
-    forms: [{ form: "также", transliteration: "takzhe", label: "Forma única" }],
+    forms: [
+      { form: "также", transliteration: "takzhe", label: "Forma única" },
+    ],
   },
   {
     id: "poetomu",
@@ -2619,7 +2486,9 @@ export const words = [
     es: "por eso",
     level: "A2",
     pos: "adverb",
-    forms: [{ form: "поэтому", transliteration: "poetomu", label: "Forma única" }],
+    forms: [
+      { form: "поэтому", transliteration: "poetomu", label: "Forma única" },
+    ],
   },
   {
     id: "odinnadtsat",
@@ -2628,7 +2497,9 @@ export const words = [
     es: "once",
     level: "A2",
     pos: "numeral",
-    forms: [{ form: "одиннадцать", transliteration: "odinnadtsat'", label: "Forma única" }],
+    forms: [
+      { form: "одиннадцать", transliteration: "odinnadtsat'", label: "Forma única" },
+    ],
   },
   {
     id: "dvenadtsat",
@@ -2637,7 +2508,9 @@ export const words = [
     es: "doce",
     level: "A2",
     pos: "numeral",
-    forms: [{ form: "двенадцать", transliteration: "dvenadtsat'", label: "Forma única" }],
+    forms: [
+      { form: "двенадцать", transliteration: "dvenadtsat'", label: "Forma única" },
+    ],
   },
   {
     id: "dvadtsat",
@@ -2646,7 +2519,9 @@ export const words = [
     es: "veinte",
     level: "A2",
     pos: "numeral",
-    forms: [{ form: "двадцать", transliteration: "dvadtsat'", label: "Forma única" }],
+    forms: [
+      { form: "двадцать", transliteration: "dvadtsat'", label: "Forma única" },
+    ],
   },
   {
     id: "tridtsat",
@@ -2655,7 +2530,9 @@ export const words = [
     es: "treinta",
     level: "A2",
     pos: "numeral",
-    forms: [{ form: "тридцать", transliteration: "tridtsat'", label: "Forma única" }],
+    forms: [
+      { form: "тридцать", transliteration: "tridtsat'", label: "Forma única" },
+    ],
   },
   {
     id: "sto",
@@ -2664,7 +2541,9 @@ export const words = [
     es: "cien",
     level: "A2",
     pos: "numeral",
-    forms: [{ form: "сто", transliteration: "sto", label: "Forma única" }],
+    forms: [
+      { form: "сто", transliteration: "sto", label: "Forma única" },
+    ],
   },
   {
     id: "pervyy",
@@ -2784,7 +2663,9 @@ export const words = [
     es: "con / desde",
     level: "A2",
     pos: "preposition",
-    forms: [{ form: "с", transliteration: "s", label: "Forma única" }],
+    forms: [
+      { form: "с", transliteration: "s", label: "Forma única" },
+    ],
   },
   {
     id: "dlya-prep",
@@ -2793,7 +2674,9 @@ export const words = [
     es: "para",
     level: "A2",
     pos: "preposition",
-    forms: [{ form: "для", transliteration: "dlya", label: "Forma única" }],
+    forms: [
+      { form: "для", transliteration: "dlya", label: "Forma única" },
+    ],
   },
   {
     id: "yesli-conj",
@@ -2802,7 +2685,9 @@ export const words = [
     es: "si (condicional)",
     level: "A2",
     pos: "conjunction",
-    forms: [{ form: "если", transliteration: "yesli", label: "Forma única" }],
+    forms: [
+      { form: "если", transliteration: "yesli", label: "Forma única" },
+    ],
   },
   {
     id: "chtoby-conj",
@@ -2811,7 +2696,9 @@ export const words = [
     es: "para que / a fin de",
     level: "A2",
     pos: "conjunction",
-    forms: [{ form: "чтобы", transliteration: "chtoby", label: "Forma única" }],
+    forms: [
+      { form: "чтобы", transliteration: "chtoby", label: "Forma única" },
+    ],
   },
   {
     id: "potomu-chto",
@@ -2820,6 +2707,8 @@ export const words = [
     es: "porque",
     level: "A2",
     pos: "conjunction",
-    forms: [{ form: "потому что", transliteration: "potomu chto", label: "Forma única" }],
+    forms: [
+      { form: "потому что", transliteration: "potomu chto", label: "Forma única" },
+    ],
   },
 ];
