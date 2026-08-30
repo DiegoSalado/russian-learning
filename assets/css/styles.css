@@ -142,7 +142,7 @@ button{font-family:inherit;}
 }
 @media (max-width:640px){
   .lessons-menu-panel-inner{ min-width:0; width:100%; max-width:100%; flex-direction:column; }
-  .lessons-menu-levels{ flex-direction:row; border-right:none; border-bottom:1px solid var(--line); }
+  .lessons-menu-levels{ flex-direction:row; flex-wrap:wrap; min-width:0; border-right:none; border-bottom:1px solid var(--line); }
   .lessons-menu-list{ max-height:45vh; }
 }
 .speed-toggle{
@@ -622,7 +622,7 @@ button{font-family:inherit;}
 .mode-tabs{
   display:flex;
   gap:10px;
-  padding:22px 8vw 0;
+  padding:22px 8vw 34px;
   background:var(--paper);
 }
 .mode-tab{
@@ -646,8 +646,8 @@ button{font-family:inherit;}
   align-items:center;
   text-align:center;
 }
-.flashcards-picker{ display:flex; flex-direction:column; align-items:center; }
-.flashcards-pos-tabs{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:20px; }
+.flashcards-picker{ display:flex; flex-direction:column; align-items:center; width:100%; }
+.flashcards-pos-tabs{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:20px; width:100%; max-width:760px; }
 .flashcards-pos-tab{
   font-family:'IBM Plex Mono', monospace;
   font-size:.78rem;
@@ -666,6 +666,7 @@ button{font-family:inherit;}
   grid-template-columns:repeat(auto-fill, minmax(150px, 1fr));
   gap:14px;
   margin-top:8px;
+  width:100%;
   max-width:760px;
 }
 .flashcards-level-card{
@@ -706,7 +707,7 @@ button{font-family:inherit;}
   color:var(--marigold);
   margin:0;
 }
-.flashcard-stage{ display:flex; flex-direction:column; align-items:center; max-width:480px; margin:0 auto; }
+.flashcard-stage{ display:flex; flex-direction:column; align-items:center; width:100%; max-width:480px; margin:0 auto; }
 .flashcard-flip-wrap{
   width:100%;
   perspective:1400px;
@@ -793,7 +794,7 @@ button{font-family:inherit;}
 .flashcard-writing-feedback.correct{ color:var(--mint); }
 .flashcard-writing-feedback.incorrect{ color:#F0A99E; }
 
-.flashcards-summary{ max-width:420px; }
+.flashcards-summary{ width:100%; max-width:420px; }
 .flashcards-summary h3{ color:var(--chalk); font-size:1.8rem; }
 .flashcards-summary-stats{ display:flex; gap:26px; margin:20px 0 26px; }
 .flashcards-summary-stats div{ display:flex; flex-direction:column; }

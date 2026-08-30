@@ -3386,6 +3386,7 @@ export const words = [
   },
   {
     id: "moskva",
+    excludeFromFlashcards: true,
     lemma: "Москва",
     transliteration: "Moskva",
     es: "Moscú",
@@ -3403,6 +3404,7 @@ export const words = [
   },
   {
     id: "ispaniya",
+    excludeFromFlashcards: true,
     lemma: "Испания",
     transliteration: "Ispaniya",
     es: "España",
@@ -3420,6 +3422,7 @@ export const words = [
   },
   {
     id: "meksika",
+    excludeFromFlashcards: true,
     lemma: "Мексика",
     transliteration: "Meksika",
     es: "México",
@@ -3437,6 +3440,7 @@ export const words = [
   },
   {
     id: "rossiya",
+    excludeFromFlashcards: true,
     lemma: "Россия",
     transliteration: "Rossiya",
     es: "Rusia",
@@ -3454,6 +3458,7 @@ export const words = [
   },
   {
     id: "parizh",
+    excludeFromFlashcards: true,
     lemma: "Париж",
     transliteration: "Parizh",
     es: "París",
@@ -3471,6 +3476,7 @@ export const words = [
   },
   {
     id: "argentina",
+    excludeFromFlashcards: true,
     lemma: "Аргентина",
     transliteration: "Argentina",
     es: "Argentina",
@@ -3488,6 +3494,7 @@ export const words = [
   },
   {
     id: "kolumbiya",
+    excludeFromFlashcards: true,
     lemma: "Колумбия",
     transliteration: "Kolumbiya",
     es: "Colombia",
@@ -3505,6 +3512,7 @@ export const words = [
   },
   {
     id: "kuba",
+    excludeFromFlashcards: true,
     lemma: "Куба",
     transliteration: "Kuba",
     es: "Cuba",
@@ -3522,6 +3530,7 @@ export const words = [
   },
   {
     id: "frantsiya",
+    excludeFromFlashcards: true,
     lemma: "Франция",
     transliteration: "Frantsiya",
     es: "Francia",
@@ -3539,6 +3548,7 @@ export const words = [
   },
   {
     id: "yaponiya",
+    excludeFromFlashcards: true,
     lemma: "Япония",
     transliteration: "Yaponiya",
     es: "Japón",
@@ -3556,6 +3566,7 @@ export const words = [
   },
   {
     id: "germaniya",
+    excludeFromFlashcards: true,
     lemma: "Германия",
     transliteration: "Germaniya",
     es: "Alemania",
@@ -3573,6 +3584,7 @@ export const words = [
   },
   {
     id: "italiya",
+    excludeFromFlashcards: true,
     lemma: "Италия",
     transliteration: "Italiya",
     es: "Italia",
@@ -3590,6 +3602,7 @@ export const words = [
   },
   {
     id: "angliya",
+    excludeFromFlashcards: true,
     lemma: "Англия",
     transliteration: "Angliya",
     es: "Inglaterra",
@@ -3607,6 +3620,7 @@ export const words = [
   },
   {
     id: "amerika",
+    excludeFromFlashcards: true,
     lemma: "Америка",
     transliteration: "Amerika",
     es: "Estados Unidos / América",
@@ -3624,6 +3638,7 @@ export const words = [
   },
   {
     id: "braziliya",
+    excludeFromFlashcards: true,
     lemma: "Бразилия",
     transliteration: "Braziliya",
     es: "Brasil",
@@ -3641,6 +3656,7 @@ export const words = [
   },
   {
     id: "polsha",
+    excludeFromFlashcards: true,
     lemma: "Польша",
     transliteration: "Pol'sha",
     es: "Polonia",
@@ -3658,6 +3674,7 @@ export const words = [
   },
   {
     id: "marokko",
+    excludeFromFlashcards: true,
     lemma: "Марокко",
     transliteration: "Marokko",
     es: "Marruecos",
@@ -3670,6 +3687,7 @@ export const words = [
   },
   {
     id: "kitay",
+    excludeFromFlashcards: true,
     lemma: "Китай",
     transliteration: "Kitay",
     es: "China",
@@ -3687,6 +3705,7 @@ export const words = [
   },
   {
     id: "gretsiya",
+    excludeFromFlashcards: true,
     lemma: "Греция",
     transliteration: "Gretsiya",
     es: "Grecia",
@@ -3704,6 +3723,7 @@ export const words = [
   },
   {
     id: "egipet",
+    excludeFromFlashcards: true,
     lemma: "Египет",
     transliteration: "Yegipet",
     es: "Egipto",
@@ -3721,6 +3741,7 @@ export const words = [
   },
   {
     id: "kanada",
+    excludeFromFlashcards: true,
     lemma: "Канада",
     transliteration: "Kanada",
     es: "Canadá",
@@ -3738,6 +3759,7 @@ export const words = [
   },
   {
     id: "venesuela",
+    excludeFromFlashcards: true,
     lemma: "Венесуэла",
     transliteration: "Venesuela",
     es: "Venezuela",
@@ -3755,6 +3777,7 @@ export const words = [
   },
   {
     id: "koreya",
+    excludeFromFlashcards: true,
     lemma: "Корея",
     transliteration: "Koreya",
     es: "Corea",
@@ -3772,6 +3795,7 @@ export const words = [
   },
   {
     id: "shveytsariya",
+    excludeFromFlashcards: true,
     lemma: "Швейцария",
     transliteration: "Shveytsariya",
     es: "Suiza",
@@ -3789,6 +3813,7 @@ export const words = [
   },
   {
     id: "shvetsiya",
+    excludeFromFlashcards: true,
     lemma: "Швеция",
     transliteration: "Shvetsiya",
     es: "Suecia",
@@ -3806,6 +3831,7 @@ export const words = [
   },
   {
     id: "portugaliya",
+    excludeFromFlashcards: true,
     lemma: "Португалия",
     transliteration: "Portugaliya",
     es: "Portugal",

@@ -24,7 +24,9 @@ function normalize(s) {
 }
 
 function pickSessionWords(vocabulary, level, pos, progressData, count) {
-  const pool = vocabulary.filter((w) => w.level === level && (pos === "Todos" || w.pos === pos));
+  const pool = vocabulary.filter(
+    (w) => w.level === level && (pos === "Todos" || w.pos === pos) && !w.excludeFromFlashcards
+  );
   const scored = pool.map((w) => ({ word: w, score: priorityScore(getWordProgress(progressData, w.id)) }));
   const maxScore = Math.max(0, ...scored.map((s) => s.score));
   const ordered = [];
@@ -43,7 +45,9 @@ export function renderFlashcardsMode(vocabulary, container) {
   let activePos = "Todos";
 
   function levelWordCount(code) {
-    return vocabulary.filter((w) => w.level === code && (activePos === "Todos" || w.pos === activePos)).length;
+    return vocabulary.filter(
+      (w) => w.level === code && (activePos === "Todos" || w.pos === activePos) && !w.excludeFromFlashcards
+    ).length;
   }
 
   function renderLevelPicker() {
