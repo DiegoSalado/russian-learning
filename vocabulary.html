@@ -32,7 +32,7 @@
 
   <section class="section section-paper" id="vocab-search">
     <p class="eyebrow">Buscador</p>
-    <h2>~680 palabras, de A1 a C2</h2>
+    <h2 id="vocabCount">~680 palabras, de A1 a C2</h2>
     <div class="vocab-search-bar">
       <input type="search" id="vocabInput" placeholder="Buscar en ruso o español… (ej. домами, casa)" aria-label="Buscar palabra">
     </div>
@@ -59,6 +59,8 @@
   import { renderFlashcardsMode } from "./assets/js/render-flashcards.js";
 
   renderVocabularyPage(vocabulary);
+  document.getElementById("vocabCount").textContent =
+    `~${Math.round(vocabulary.length / 10) * 10} palabras, de A1 a C2`;
 
   const searchSection = document.getElementById("vocab-search");
   const flashcardsSection = document.getElementById("vocab-flashcards");
