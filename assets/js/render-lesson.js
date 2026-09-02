@@ -565,7 +565,7 @@ function renderFillBlankSection(root, fillBlank, number, idSuffix) {
     const p = document.createElement("p");
     p.className = "fillblank-sentence";
     const before = document.createElement("span");
-    before.textContent = s.before;
+    before.innerHTML = s.before ? wrapWords(s.before) : "";
     const blank = document.createElement("span");
     blank.className = "fillblank-blank";
     blank.dataset.answer = s.answer;
@@ -575,7 +575,7 @@ function renderFillBlankSection(root, fillBlank, number, idSuffix) {
     blank.setAttribute("aria-label", "Espacio para completar, tocá para elegir una palabra");
     blank.textContent = "______";
     const after = document.createElement("span");
-    after.textContent = s.after;
+    after.innerHTML = s.after ? wrapWords(s.after) : "";
     p.appendChild(before);
     p.appendChild(blank);
     p.appendChild(after);
