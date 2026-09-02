@@ -23,85 +23,47 @@ function normalize(s) {
   return s.toLowerCase().replace(/ё/g, "е").trim();
 }
 
-function pickSessionWords(vocabulary, level, pos, progressData, count) {
-  const pool = vocabulary.filter((w) => w.level === level && (pos === "Todos" || filterGroup(w) === pos));
-  const scored = pool.map((w) => ({ word: w, score: priorityScore(getWordProgress(progressData, w.id)) }));
-  const maxScore = Math.max(0, ...scored.map((s) => s.score));
-  const ordered = [];
-  for (let s = maxScore; s >= 0; s--) {
-    ordered.push(...shuffle(scored.filter((x) => x.score === s).map((x) => x.word)));
-  }
-  return ordered.slice(0, count);
+// Convierte vocabulario de lección ({ru, transliteration, es}) al shape que
+// necesita el motor de flashcards ({id, lemma, transliteration, es}). El id
+// se deriva de la palabra misma, así el progreso persiste aunque la misma
+// palabra aparezca en más de una lección.
+export function toFlashcardEntries(vocabulary) {
+  return vocabulary.map((v) => ({
+    id: `w:${normalize(v.ru)}`,
+    lemma: v.ru,
+    transliteration: v.transliteration,
+    es: v.es,
+  }));
 }
 
-export function renderFlashcardsMode(vocabulary, container) {
+/**
+ * Motor de sesión de flashcards, reutilizable tanto por el diccionario
+ * completo (con selector de nivel/categoría) como por una lista fija de
+ * palabras (vocabulario de una lección o de un subtema).
+ *
+ * @param {HTMLElement} container - dónde renderizar la sesión.
+ * @param {Array} words - entries {id, lemma, transliteration, es}.
+ * @param {object} meta
+ * @param {string} [meta.subtitle] - texto que reemplaza a "nivel · categoría" en el header.
+ * @param {string} [meta.exitLabel] - texto del botón para salir de la sesión.
+ * @param {() => void} [meta.onExit] - qué hacer al salir / terminar la sesión.
+ */
+export function runFlashcardsSession(container, words, meta = {}) {
   const progressData = loadProgress();
-  const SESSION_SIZE = 50;
-  const posChoices = ["Todos", ...posOptions(vocabulary)];
+  const subtitle = meta.subtitle ?? "";
+  const exitLabel = meta.exitLabel ?? "← Volver";
+  const onExit = meta.onExit ?? (() => {});
 
-  let session = null; // { level, pos, round, queue, round2Queue, index, current, stats, revealed, checked, correct }
-  let activePos = "Todos";
-
-  function levelWordCount(code) {
-    return vocabulary.filter(
-      (w) => w.level === code && (activePos === "Todos" || filterGroup(w) === activePos)
-    ).length;
-  }
-
-  function renderLevelPicker() {
-    container.innerHTML = `
-      <div class="flashcards-picker">
-        <p class="section-note">Elegí qué querés practicar y empezá una sesión de hasta ${SESSION_SIZE} palabras.</p>
-        <div class="flashcards-pos-tabs" id="flashcardsPosTabs"></div>
-        <div class="flashcards-level-grid"></div>
-      </div>
-    `;
-    const posTabsEl = container.querySelector("#flashcardsPosTabs");
-    posChoices.forEach((pos) => {
-      const tab = document.createElement("button");
-      tab.className = "flashcards-pos-tab" + (pos === activePos ? " active" : "");
-      tab.type = "button";
-      tab.textContent = pos === "Todos" ? "Todas las categorías" : POS_LABELS[pos];
-      tab.addEventListener("click", () => {
-        activePos = pos;
-        renderLevelPicker();
-      });
-      posTabsEl.appendChild(tab);
-    });
-
-    const grid = container.querySelector(".flashcards-level-grid");
-    levels.forEach((lvl) => {
-      const count = levelWordCount(lvl.code);
-      const btn = document.createElement("button");
-      btn.className = "flashcards-level-card";
-      btn.type = "button";
-      btn.disabled = count === 0;
-      btn.innerHTML = `
-        <span class="flashcards-level-code">${lvl.code}</span>
-        <span class="flashcards-level-label">${lvl.label}</span>
-        <span class="flashcards-level-count">${count} palabra${count === 1 ? "" : "s"} disponible${count === 1 ? "" : "s"}</span>
-      `;
-      btn.addEventListener("click", () => startSession(lvl.code));
-      grid.appendChild(btn);
-    });
-  }
-
-  function startSession(level) {
-    const words = pickSessionWords(vocabulary, level, activePos, progressData, SESSION_SIZE);
-    session = {
-      level,
-      pos: activePos,
-      round: 1,
-      queue: words,
-      round2Queue: [],
-      index: 0,
-      current: null,
-      stats: { seen: 0, known: 0, unknown: 0 },
-      revealed: false,
-      writingChecked: null, // null | "correct" | "incorrect"
-    };
-    nextCard();
-  }
+  const session = {
+    round: 1,
+    queue: shuffle(words),
+    round2Queue: [],
+    index: 0,
+    current: null,
+    stats: { seen: 0, known: 0, unknown: 0 },
+    revealed: false,
+    writingChecked: null,
+  };
 
   function nextCard() {
     if (session.index >= session.queue.length) {
@@ -130,17 +92,17 @@ export function renderFlashcardsMode(vocabulary, container) {
     const total = session.queue.length;
     const cardPos = session.index + 1;
     const roundLabel = session.round === 1 ? "Ronda 1" : "Ronda 2 · Repaso";
-    const posLabel = session.pos && session.pos !== "Todos" ? ` · ${POS_LABELS[session.pos]}` : "";
+    const subtitleLabel = subtitle ? ` · ${subtitle}` : "";
     return `
       <div class="flashcard-topline">
-        <button type="button" class="flashcard-back-btn breadcrumb">← Cambiar de nivel</button>
-        <p class="flashcard-progress">${session.level}${posLabel} · ${roundLabel} · Tarjeta ${cardPos} / ${total}</p>
+        <button type="button" class="flashcard-back-btn breadcrumb">${exitLabel}</button>
+        <p class="flashcard-progress">${roundLabel}${subtitleLabel} · Tarjeta ${cardPos} / ${total}</p>
       </div>
     `;
   }
 
   function wireHeader() {
-    container.querySelector(".flashcard-back-btn").addEventListener("click", renderLevelPicker);
+    container.querySelector(".flashcard-back-btn").addEventListener("click", onExit);
   }
 
   function flipCardHTML(entry) {
@@ -352,10 +314,85 @@ export function renderFlashcardsMode(vocabulary, container) {
           <div><strong>${known}</strong><span>ya las sabías</span></div>
           <div><strong>${unknown}</strong><span>reforzadas</span></div>
         </div>
-        <button class="flashcard-btn flashcards-restart">Elegir otro nivel</button>
+        <button class="flashcard-btn flashcards-restart">${exitLabel}</button>
       </div>
     `;
-    container.querySelector(".flashcards-restart").addEventListener("click", renderLevelPicker);
+    container.querySelector(".flashcards-restart").addEventListener("click", onExit);
+  }
+
+  nextCard();
+}
+
+function pickSessionWords(vocabulary, level, pos, progressData, count) {
+  const pool = vocabulary.filter((w) => w.level === level && (pos === "Todos" || filterGroup(w) === pos));
+  const scored = pool.map((w) => ({ word: w, score: priorityScore(getWordProgress(progressData, w.id)) }));
+  const maxScore = Math.max(0, ...scored.map((s) => s.score));
+  const ordered = [];
+  for (let s = maxScore; s >= 0; s--) {
+    ordered.push(...shuffle(scored.filter((x) => x.score === s).map((x) => x.word)));
+  }
+  return ordered.slice(0, count);
+}
+
+export function renderFlashcardsMode(vocabulary, container) {
+  const progressData = loadProgress();
+  const SESSION_SIZE = 50;
+  const posChoices = ["Todos", ...posOptions(vocabulary)];
+
+  let activePos = "Todos";
+
+  function levelWordCount(code) {
+    return vocabulary.filter(
+      (w) => w.level === code && (activePos === "Todos" || filterGroup(w) === activePos)
+    ).length;
+  }
+
+  function renderLevelPicker() {
+    container.innerHTML = `
+      <div class="flashcards-picker">
+        <p class="section-note">Elegí qué querés practicar y empezá una sesión de hasta ${SESSION_SIZE} palabras.</p>
+        <div class="flashcards-pos-tabs" id="flashcardsPosTabs"></div>
+        <div class="flashcards-level-grid"></div>
+      </div>
+    `;
+    const posTabsEl = container.querySelector("#flashcardsPosTabs");
+    posChoices.forEach((pos) => {
+      const tab = document.createElement("button");
+      tab.className = "flashcards-pos-tab" + (pos === activePos ? " active" : "");
+      tab.type = "button";
+      tab.textContent = pos === "Todos" ? "Todas las categorías" : POS_LABELS[pos];
+      tab.addEventListener("click", () => {
+        activePos = pos;
+        renderLevelPicker();
+      });
+      posTabsEl.appendChild(tab);
+    });
+
+    const grid = container.querySelector(".flashcards-level-grid");
+    levels.forEach((lvl) => {
+      const count = levelWordCount(lvl.code);
+      const btn = document.createElement("button");
+      btn.className = "flashcards-level-card";
+      btn.type = "button";
+      btn.disabled = count === 0;
+      btn.innerHTML = `
+        <span class="flashcards-level-code">${lvl.code}</span>
+        <span class="flashcards-level-label">${lvl.label}</span>
+        <span class="flashcards-level-count">${count} palabra${count === 1 ? "" : "s"} disponible${count === 1 ? "" : "s"}</span>
+      `;
+      btn.addEventListener("click", () => startSession(lvl.code));
+      grid.appendChild(btn);
+    });
+  }
+
+  function startSession(level) {
+    const words = pickSessionWords(vocabulary, level, activePos, progressData, SESSION_SIZE);
+    const posLabel = activePos !== "Todos" ? ` · ${POS_LABELS[activePos]}` : "";
+    runFlashcardsSession(container, words, {
+      subtitle: `${level}${posLabel}`,
+      exitLabel: "← Cambiar de nivel",
+      onExit: renderLevelPicker,
+    });
   }
 
   renderLevelPicker();

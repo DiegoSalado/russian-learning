@@ -2,7 +2,7 @@ export const lesson = {
   slug: "verbal-aspect",
   level: "B1",
   module: "Módulo 1 — Aspecto verbal",
-  order: 1,
+  order: 2,
   title: "Aspecto verbal: imperfectivo y perfectivo",
   vocabulary: [
     { ru: "делать", transliteration: "delat'", es: "hacer (imperfectivo, proceso)" },

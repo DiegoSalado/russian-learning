@@ -2,7 +2,7 @@ export const lesson = {
   slug: "review-a1",
   level: "A1",
   module: "Módulo 6 — Proyecto de cierre A1",
-  order: 10,
+  order: 15,
   title: "Repaso integrador de A1",
   vocabulary: [
     { ru: "Привет", transliteration: "privyet", es: "Hola" },

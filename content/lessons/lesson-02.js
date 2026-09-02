@@ -2,7 +2,7 @@ export const lesson = {
   slug: "pronouns-questions",
   level: "A1",
   module: "Módulo 2 — Presentarse y frases básicas",
-  order: 2,
+  order: 3,
   title: "Pronombres y palabras interrogativas",
   vocabulary: [
     { ru: "Я", transliteration: "ya", es: "Yo" },

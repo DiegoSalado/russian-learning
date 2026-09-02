@@ -2,7 +2,7 @@ export const lesson = {
   slug: "indirect-speech",
   level: "B2",
   module: "Módulo 2 — Estilo indirecto",
-  order: 2,
+  order: 3,
   title: "Estilo indirecto",
   vocabulary: [
     { ru: "сказать", transliteration: "skazat'", es: "decir" },

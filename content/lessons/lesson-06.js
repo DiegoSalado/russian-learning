@@ -2,7 +2,7 @@ export const lesson = {
   slug: "greetings",
   level: "A1",
   module: "Práctica extra",
-  order: 6,
+  order: 9,
   title: "Saludos",
   vocabulary: [
     { ru: "Привет", transliteration: "privyet", es: "Hola" },

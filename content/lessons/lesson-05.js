@@ -2,7 +2,7 @@ export const lesson = {
   slug: "places-shopping",
   level: "A1",
   module: "Módulo 5 — Lugares, números y compras",
-  order: 5,
+  order: 8,
   title: "Lugares, números y compras",
   vocabulary: [
     { ru: "Одиннадцать", transliteration: "odinnadtsat'", es: "Once" },

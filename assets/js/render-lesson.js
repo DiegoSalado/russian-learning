@@ -1,5 +1,6 @@
 import { speak, getRate, toggleRate, supportsSpeech } from "./speech.js";
 import { levels, lessonsIndex } from "../../content/lessons-index.js";
+import { runFlashcardsSession, toFlashcardEntries } from "./render-flashcards.js";
 
 export function waveHTML() {
   return '<span class="wave"><span></span><span></span><span></span><span></span></span>';
@@ -107,11 +108,18 @@ function renderAlphabetSection(root, alphabet, number) {
   root.appendChild(section);
 }
 
-function renderVocabSection(root, vocabulary, number) {
+function renderVocabSection(root, vocabulary, number, isVocabLesson, idSuffix, heading) {
   const section = document.createElement("section");
   section.className = "section section-paper reveal";
-  section.id = "vocab";
-  section.innerHTML = `
+  section.id = idSuffix ? `vocab-${idSuffix}` : "vocab";
+  section.innerHTML = isVocabLesson
+    ? `
+    <p class="eyebrow">${String(number).padStart(2, "0")} — Vocabulario nuevo</p>
+    <h2>${heading ?? "Palabras para las próximas lecciones"}</h2>
+    <p class="section-note">Pasa el cursor por cada tarjeta para escuchar la pronunciación y ver su transliteración. Estas palabras aparecen en las lecciones que siguen.</p>
+    <div class="word-grid"></div>
+  `
+    : `
     <p class="eyebrow">${String(number).padStart(2, "0")} — Vocabulario esencial</p>
     <h2>Palabras para empezar</h2>
     <p class="section-note">Pasa el cursor por cada tarjeta para escuchar la pronunciación y ver su transliteración.</p>
@@ -138,7 +146,36 @@ function renderVocabSection(root, vocabulary, number) {
     card.addEventListener("click", trigger);
     grid.appendChild(card);
   });
+  attachTopicFlashcards(section, grid, vocabulary, isVocabLesson ? heading : "Vocabulario esencial");
   root.appendChild(section);
+}
+
+function attachTopicFlashcards(section, grid, vocabulary, heading) {
+  const launcher = document.createElement("div");
+  launcher.className = "topic-flashcards-launcher";
+  launcher.innerHTML = `<button type="button" class="topic-flashcards-btn">🃏 Practicar estas palabras con flashcards</button>`;
+  const panel = document.createElement("div");
+  panel.className = "topic-flashcards-panel";
+  panel.hidden = true;
+  grid.before(launcher, panel);
+
+  const btn = launcher.querySelector(".topic-flashcards-btn");
+  btn.addEventListener("click", () => {
+    const opening = panel.hidden;
+    panel.hidden = !opening;
+    grid.style.display = opening ? "none" : "";
+    if (!opening) return;
+    panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    runFlashcardsSession(panel, toFlashcardEntries(vocabulary), {
+      subtitle: heading,
+      exitLabel: "✕ Cerrar",
+      onExit: () => {
+        panel.hidden = true;
+        panel.innerHTML = "";
+        grid.style.display = "";
+      },
+    });
+  });
 }
 
 function renderGrammarBoxes(container, tables) {
@@ -326,7 +363,7 @@ function renderReadingSection(root, reading, number) {
   section.className = "section section-paper reveal";
   section.id = "reading";
   const typeLabel =
-    { historia: "Historia", "artículo": "Artículo", "diálogo": "Diálogo" }[reading.type] ?? "Lectura";
+    { historia: "Historia", "artículo": "Artículo", "diálogo": "Diálogo", poema: "Poema" }[reading.type] ?? "Lectura";
   section.innerHTML = `
     <p class="eyebrow">${String(number).padStart(2, "0")} — Lectura</p>
     <h2>${reading.title}</h2>
@@ -417,7 +454,10 @@ function renderLessonsMenu(currentLevel) {
         const a = document.createElement("a");
         a.className = "lessons-menu-item";
         a.href = `${item.file}`;
-        a.textContent = item.title;
+        a.innerHTML = `
+          <span class="lessons-menu-item-title">${item.title}</span>
+          ${item.grammarLabel ? `<span class="lessons-menu-item-topic">${item.grammarLabel}</span>` : ""}
+        `;
         listEl.appendChild(a);
       });
     levelsEl.querySelectorAll(".lessons-menu-level").forEach((btn) => {
@@ -495,11 +535,11 @@ function renderLessonsMenu(currentLevel) {
   return wrap;
 }
 
-function renderFillBlankSection(root, fillBlank, number) {
+function renderFillBlankSection(root, fillBlank, number, idSuffix) {
   if (!fillBlank) return;
   const section = document.createElement("section");
   section.className = "section section-paper reveal";
-  section.id = "fillblank";
+  section.id = idSuffix ? `fillblank-${idSuffix}` : "fillblank";
   section.innerHTML = `
     <p class="eyebrow">${String(number).padStart(2, "0")} — Completa las frases</p>
     <h2>${fillBlank.title}</h2>
@@ -649,9 +689,10 @@ function renderTopbar(root, lesson) {
   const nav = document.createElement("div");
   nav.className = "topbar-nav";
   const back = document.createElement("a");
-  back.className = "breadcrumb";
+  back.className = "breadcrumb breadcrumb-back";
   back.href = "../index.html";
-  back.textContent = "← Volver a lecciones";
+  back.setAttribute("aria-label", "Volver a lecciones");
+  back.innerHTML = `<span aria-hidden="true">←</span><span class="breadcrumb-label"> Volver a lecciones</span>`;
   nav.appendChild(back);
   nav.appendChild(renderLessonsMenu(lesson?.level));
 
@@ -707,17 +748,29 @@ function setupScrollReveal(root) {
   root.querySelectorAll(".reveal").forEach((el) => io.observe(el));
 }
 
+function renderVocabTopics(root, topics, n) {
+  topics.forEach((topic, i) => {
+    renderVocabSection(root, topic.vocabulary, n++, true, i + 1, topic.title);
+    if (topic.fillBlank) renderFillBlankSection(root, topic.fillBlank, n++, i + 1);
+  });
+  return n;
+}
+
 export function renderLesson(lesson) {
   const root = document.getElementById("lesson-root");
   let n = 1;
   renderTopbar(root, lesson);
   renderHero(root, lesson);
   if (lesson.alphabet) renderAlphabetSection(root, lesson.alphabet, n++);
-  renderVocabSection(root, lesson.vocabulary, n++);
-  renderGrammarSection(root, lesson.grammarPoint, n++);
-  renderConversationSection(root, lesson.conversation, n++);
+  if (lesson.topics) {
+    n = renderVocabTopics(root, lesson.topics, n);
+  } else {
+    if (lesson.vocabulary) renderVocabSection(root, lesson.vocabulary, n++, lesson.type === "vocabulary");
+    if (lesson.fillBlank) renderFillBlankSection(root, lesson.fillBlank, n++);
+  }
+  if (lesson.grammarPoint) renderGrammarSection(root, lesson.grammarPoint, n++);
+  if (lesson.conversation) renderConversationSection(root, lesson.conversation, n++);
   renderReadingSection(root, lesson.reading, n++);
-  if (lesson.fillBlank) renderFillBlankSection(root, lesson.fillBlank, n++);
   renderFooter(root);
   renderSpeechNotice(root);
   setupScrollReveal(root);

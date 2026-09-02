@@ -62,9 +62,11 @@
       const a = document.createElement("a");
       a.className = "lesson-card";
       a.href = `lessons/${item.file}`;
+      const orderLabel = item.type === "vocabulary" ? "Vocabulario" : `Lección ${String(item.order).padStart(2, "0")}`;
       a.innerHTML = `
-        <span class="lesson-order">Lección ${String(item.order).padStart(2, "0")}</span>
+        <span class="lesson-order">${orderLabel}</span>
         <h3>${item.title}</h3>
+        ${item.grammarLabel ? `<p class="lesson-topic">${item.grammarLabel}</p>` : ""}
         <p class="lesson-summary">${item.summary}</p>
         <span class="lesson-level">${item.level}</span>
       `;

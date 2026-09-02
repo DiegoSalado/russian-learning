@@ -2,7 +2,7 @@ export const lesson = {
   slug: "alphabet",
   level: "A1",
   module: "Módulo 1 — Alfabeto y fonética",
-  order: 1,
+  order: 2,
   title: "El alfabeto y los sonidos rusos",
   alphabet: [
     { letter: "А а", transliteration: "a", type: "Vocal" },
@@ -72,7 +72,7 @@ export const lesson = {
       { ru: "Молоко", transliteration: "malako", es: "Leche (las dos 'о' átonas suenan 'a')" },
       { ru: "Хорошо", transliteration: "kharasho", es: "Bien (acento en la última sílaba)" },
       { ru: "Москва", transliteration: "maskva", es: "Moscú (la primera 'о' suena 'a')" },
-      { ru: "Мама", transliteration: "mama", es: "Mamá (consonante 'м' dura)" },
+      { ru: "Музыка", transliteration: "muzyka", es: "Música (consonante 'м' dura)" },
     ],
   },
   conversation: {

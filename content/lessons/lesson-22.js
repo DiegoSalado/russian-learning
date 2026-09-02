@@ -2,7 +2,7 @@ export const lesson = {
   slug: "review-b1",
   level: "B1",
   module: "Módulo 6 — Proyecto de cierre B1",
-  order: 6,
+  order: 14,
   title: "Repaso integrador de B1",
   vocabulary: [
     { ru: "заканчивать / закончить", transliteration: "zakanchivat' / zakonchit'", es: "terminar (imperfectivo / perfectivo)" },

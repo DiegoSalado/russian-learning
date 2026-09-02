@@ -1,4 +1,42 @@
+/* =============================================================
+   Paletas — tres juegos de tokens intercambiables.
+   La paleta activa es siempre la que está en el :root sin atributo
+   (así no depende de JS ni de ningún timing — el navegador nunca
+   pinta con un valor "por defecto" para después corregirlo).
+
+   Para cambiar la paleta de TODO el sitio: cortá y pegá el
+   contenido de :root con el del bloque [data-palette="..."] que
+   quieras activar (y dejá el que sacaste guardado en su lugar,
+   con su propio nombre). Todo el resto del CSS ya está escrito
+   con var(--...), así que el cambio se propaga solo.
+
+   Activa ahora: Federación Rusa.
+   ============================================================= */
 :root{
+  /* Federación Rusa — blanco, azul, rojo (ACTIVA) */
+  --paper:#F4F5F8;
+  --paper-warm:#E7EAF0;
+  --ink:#1B2733;
+  --ink-soft:#48586B;
+  --board:#1E3A5F;
+  --board-deep:#122840;
+  --chalk:#F2F5FA;
+  --chalk-rgb:242,245,250;
+  --chalk-soft:#A9BFD6;
+  --marigold:#C8102E;
+  --marigold-dim:#9C0B22;
+  --marigold-light:#E8697D;
+  --marigold-rgb:200,16,46;
+  --mint:#3B6EA5;
+  --mint-dim:#2E578A;
+  --mint-soft:#DCE7F4;
+  --line:#D7DCE6;
+  --radius:14px;
+  --shadow: 0 6px 24px rgba(32,48,59,0.08);
+}
+
+:root[data-palette="current"]{
+  /* Original — pizarrón verde, marigold + mint */
   --paper:#F1F2EE;
   --paper-warm:#EAEBE4;
   --ink:#20303B;
@@ -6,13 +44,37 @@
   --board:#24413A;
   --board-deep:#1B332D;
   --chalk:#F5F1E6;
+  --chalk-rgb:245,241,230;
+  --chalk-soft:#B7CCC5;
   --marigold:#E8873A;
   --marigold-dim:#c96f28;
+  --marigold-light:#F6C089;
+  --marigold-rgb:232,135,58;
   --mint:#3F9C87;
+  --mint-dim:#348a76;
   --mint-soft:#DCEFE9;
   --line:#D9DAD1;
-  --radius:14px;
-  --shadow: 0 6px 24px rgba(32,48,59,0.08);
+}
+
+:root[data-palette="ussr"]{
+  /* URSS — rojo profundo y oro, sin emblemas */
+  --paper:#F4EEE1;
+  --paper-warm:#EADFC6;
+  --ink:#271713;
+  --ink-soft:#5C4438;
+  --board:#7A1420;
+  --board-deep:#4A0C13;
+  --chalk:#F6ECD6;
+  --chalk-rgb:246,236,214;
+  --chalk-soft:#D9A9A8;
+  --marigold:#D4A017;
+  --marigold-dim:#A87D0F;
+  --marigold-light:#E7C769;
+  --marigold-rgb:212,160,23;
+  --mint:#C9515B;
+  --mint-dim:#A83C46;
+  --mint-soft:#F3DEDD;
+  --line:#DCCFAE;
 }
 *{box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -129,6 +191,9 @@ button{font-family:inherit;}
   overflow-y:auto;
 }
 .lessons-menu-item{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
   text-decoration:none;
   color:var(--ink);
   font-size:.88rem;
@@ -140,10 +205,18 @@ button{font-family:inherit;}
   background:var(--mint-soft);
   color:var(--ink);
 }
+.lessons-menu-item-title{ line-height:1.3; }
+.lessons-menu-item-topic{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:.7rem;
+  letter-spacing:.04em;
+  color:var(--mint);
+}
 @media (max-width:640px){
   .lessons-menu-panel-inner{ min-width:0; width:100%; max-width:100%; flex-direction:column; }
   .lessons-menu-levels{ flex-direction:row; flex-wrap:wrap; min-width:0; border-right:none; border-bottom:1px solid var(--line); }
   .lessons-menu-list{ max-height:45vh; }
+  .breadcrumb-back .breadcrumb-label{ display:none; }
 }
 .speed-toggle{
   display:flex; align-items:center; gap:8px;
@@ -166,10 +239,13 @@ button{font-family:inherit;}
 .section-board{ background:var(--board); color:var(--chalk); }
 .section h2{ font-size:2.1rem; max-width:640px; }
 .section-note{ color:var(--ink-soft); max-width:520px; margin-top:-.4em; margin-bottom:2em; }
-.section-board .section-note{ color:#B7CCC5; }
+.section-board .section-note{ color:var(--chalk-soft); }
 
-.reveal{ opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease; }
-.reveal.in-view{ opacity:1; transform:translateY(0); }
+/* El fondo de la sección (.section-paper / .section-board) se ve siempre
+   desde el primer render — solo el contenido (hijos directos) hace fade-in
+   al entrar en pantalla, así la página nunca se ve "vacía" antes de scrollear. */
+.reveal > *{ opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease; }
+.reveal.in-view > *{ opacity:1; transform:translateY(0); }
 
 /* ---------- hero ---------- */
 .hero{
@@ -202,7 +278,7 @@ button{font-family:inherit;}
 }
 .section-board .w:hover, .section-board .w:focus-visible, .section-board .w.active{
   border-color:var(--marigold);
-  color:#F6C089;
+  color:var(--marigold-light);
 }
 
 /* soundwave bars used both inline and in cards */
@@ -292,6 +368,21 @@ button{font-family:inherit;}
 
 /* ---------- grammar table ---------- */
 .table-wrap{ overflow-x:auto; margin-top:8px; }
+
+@media (max-width:640px){
+  /* En el teléfono, la barra de scroll queda siempre visible (en vez de
+     aparecer solo mientras se toca) para que se note que la tabla sigue
+     hacia la derecha. */
+  .table-wrap{
+    overflow-x:scroll;
+    scrollbar-width:thin;
+    scrollbar-color:rgba(var(--chalk-rgb),.55) transparent;
+    padding-bottom:8px;
+  }
+  .table-wrap::-webkit-scrollbar{ height:6px; }
+  .table-wrap::-webkit-scrollbar-track{ background:rgba(var(--chalk-rgb),.12); border-radius:4px; }
+  .table-wrap::-webkit-scrollbar-thumb{ background:rgba(var(--chalk-rgb),.55); border-radius:4px; }
+}
 .grammar-table{
   border-collapse:collapse;
   width:100%;
@@ -304,13 +395,13 @@ button{font-family:inherit;}
   font-size:.75rem;
   letter-spacing:.08em;
   text-transform:uppercase;
-  color:#B7CCC5;
+  color:var(--chalk-soft);
   padding:10px 14px;
-  border-bottom:1px solid rgba(245,241,230,0.25);
+  border-bottom:1px solid rgba(var(--chalk-rgb),0.25);
 }
 .grammar-table td{
   padding:14px 14px;
-  border-bottom:1px solid rgba(245,241,230,0.14);
+  border-bottom:1px solid rgba(var(--chalk-rgb),0.14);
   vertical-align:top;
 }
 .grammar-table .pronoun{ font-weight:600; color:var(--chalk); font-family:'Fraunces', serif; font-size:1.05rem; }
@@ -325,7 +416,7 @@ button{font-family:inherit;}
 }
 .grammar-box{
   background:var(--board-deep);
-  border:1px solid rgba(245,241,230,0.16);
+  border:1px solid rgba(var(--chalk-rgb),0.16);
   border-radius:var(--radius);
   padding:22px 24px 20px;
 }
@@ -354,11 +445,11 @@ button{font-family:inherit;}
   text-transform:uppercase;
   color:var(--marigold);
   padding:8px 12px;
-  border-bottom:1px solid rgba(245,241,230,0.25);
+  border-bottom:1px solid rgba(var(--chalk-rgb),0.25);
 }
 .grammar-box-table td{
   padding:10px 12px;
-  border-bottom:1px solid rgba(245,241,230,0.12);
+  border-bottom:1px solid rgba(var(--chalk-rgb),0.12);
   vertical-align:top;
   color:var(--chalk);
 }
@@ -366,14 +457,14 @@ button{font-family:inherit;}
 .grammar-box-note{
   margin:14px 2px 0;
   font-size:.85rem;
-  color:#B7CCC5;
+  color:var(--chalk-soft);
 }
 .grammar-examples-label{
   font-family:'IBM Plex Mono', monospace;
   font-size:.75rem;
   letter-spacing:.1em;
   text-transform:uppercase;
-  color:#B7CCC5;
+  color:var(--chalk-soft);
   margin:0 0 .6em 0;
 }
 
@@ -381,14 +472,14 @@ button{font-family:inherit;}
 .chip{
   font-family:'IBM Plex Mono', monospace;
   font-size:.85rem;
-  border:1px solid rgba(245,241,230,0.3);
+  border:1px solid rgba(var(--chalk-rgb),0.3);
   border-radius:999px;
   padding:8px 14px;
   cursor:pointer;
   transition:background .2s ease, border-color .2s ease;
 }
 .chip:hover, .chip:focus-visible, .chip.active{
-  background:rgba(232,135,58,0.18);
+  background:rgba(var(--marigold-rgb),0.18);
   border-color:var(--marigold);
 }
 
@@ -520,6 +611,14 @@ button{font-family:inherit;}
   text-transform:uppercase;
 }
 .lesson-card h3{ font-size:1.3rem; margin-top:.4em; }
+.lesson-card p.lesson-topic{
+  margin:.35em 0 0;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:.74rem;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:var(--marigold-dim);
+}
 .lesson-card .lesson-level{
   display:inline-block;
   margin-top:.6em;
@@ -651,9 +750,9 @@ button{font-family:inherit;}
 .flashcards-pos-tab{
   font-family:'IBM Plex Mono', monospace;
   font-size:.78rem;
-  border:1px solid rgba(245,241,230,0.25);
+  border:1px solid rgba(var(--chalk-rgb),0.25);
   background:transparent;
-  color:#B7CCC5;
+  color:var(--chalk-soft);
   border-radius:999px;
   padding:7px 14px;
   cursor:pointer;
@@ -671,7 +770,7 @@ button{font-family:inherit;}
 }
 .flashcards-level-card{
   background:var(--board-deep);
-  border:1px solid rgba(245,241,230,0.18);
+  border:1px solid rgba(var(--chalk-rgb),0.18);
   border-radius:var(--radius);
   padding:20px 16px;
   display:flex;
@@ -687,7 +786,7 @@ button{font-family:inherit;}
 }
 .flashcards-level-card:disabled{ opacity:.4; cursor:not-allowed; }
 .flashcards-level-code{ font-family:'Fraunces', serif; font-size:1.4rem; font-weight:600; color:var(--chalk); }
-.flashcards-level-label{ font-size:.82rem; color:#B7CCC5; }
+.flashcards-level-label{ font-size:.82rem; color:var(--chalk-soft); }
 .flashcards-level-count{ font-family:'IBM Plex Mono', monospace; font-size:.72rem; color:var(--marigold); margin-top:6px; }
 
 .flashcard-topline{
@@ -698,7 +797,8 @@ button{font-family:inherit;}
   flex-wrap:wrap;
   margin:0 0 18px;
 }
-.flashcard-back-btn{ background:none; border:none; cursor:pointer; padding:0; font-family:'IBM Plex Mono', monospace; }
+.flashcard-back-btn{ background:none; border:none; cursor:pointer; padding:0; font-family:'IBM Plex Mono', monospace; color:var(--chalk-soft); }
+.flashcard-back-btn:hover, .flashcard-back-btn:focus-visible{ color:var(--chalk); }
 .flashcard-progress{
   font-family:'IBM Plex Mono', monospace;
   font-size:.78rem;
@@ -756,7 +856,7 @@ button{font-family:inherit;}
 .flashcard-btn{
   font-family:'IBM Plex Mono', monospace;
   font-size:.9rem;
-  border:1px solid rgba(245,241,230,0.3);
+  border:1px solid rgba(var(--chalk-rgb),0.3);
   background:transparent;
   color:var(--chalk);
   border-radius:999px;
@@ -768,18 +868,18 @@ button{font-family:inherit;}
 .flashcard-btn-known{ border-color:var(--mint); }
 .flashcard-btn-known:hover{ background:var(--mint); color:#fff; }
 .flashcard-btn-unknown:hover{ background:var(--marigold); color:#fff; }
-.flashcard-hint{ margin-top:16px; font-size:.8rem; color:#B7CCC5; text-align:center; max-width:380px; }
+.flashcard-hint{ margin-top:16px; font-size:.8rem; color:var(--chalk-soft); text-align:center; max-width:380px; }
 
 .flashcard-writing{ width:100%; margin-top:22px; }
-.flashcard-writing-label{ display:block; font-size:.85rem; color:#B7CCC5; margin-bottom:8px; }
+.flashcard-writing-label{ display:block; font-size:.85rem; color:var(--chalk-soft); margin-bottom:8px; }
 .flashcard-writing-input{
   width:100%;
   font-family:'IBM Plex Mono', monospace;
   font-size:1.1rem;
   padding:12px 16px;
   border-radius:10px;
-  border:1px solid rgba(245,241,230,0.3);
-  background:rgba(245,241,230,0.06);
+  border:1px solid rgba(var(--chalk-rgb),0.3);
+  background:rgba(var(--chalk-rgb),0.06);
   color:var(--chalk);
   outline-offset:2px;
 }
@@ -787,7 +887,7 @@ button{font-family:inherit;}
 .flashcard-writing-input.incorrect{ border-color:#E86A5C; color:#F0A99E; }
 .flashcard-writing-actions{ display:flex; gap:12px; margin-top:12px; align-items:center; }
 .flashcard-skip{
-  background:none; border:none; color:#B7CCC5; font-family:'IBM Plex Mono', monospace;
+  background:none; border:none; color:var(--chalk-soft); font-family:'IBM Plex Mono', monospace;
   font-size:.82rem; cursor:pointer; text-decoration:underline;
 }
 .flashcard-writing-feedback{ margin-top:12px; font-size:.9rem; min-height:1.4em; }
@@ -799,10 +899,34 @@ button{font-family:inherit;}
 .flashcards-summary-stats{ display:flex; gap:26px; margin:20px 0 26px; }
 .flashcards-summary-stats div{ display:flex; flex-direction:column; }
 .flashcards-summary-stats strong{ font-family:'Fraunces', serif; font-size:1.8rem; color:var(--marigold); }
-.flashcards-summary-stats span{ font-size:.78rem; color:#B7CCC5; }
+.flashcards-summary-stats span{ font-size:.78rem; color:var(--chalk-soft); }
 
 @media (prefers-reduced-motion: reduce){
   .flashcard{ transition:none; }
+}
+
+/* ---------- flashcards embebidas en una sección de vocabulario ---------- */
+.topic-flashcards-launcher{ margin-bottom:22px; }
+.topic-flashcards-btn{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:.85rem;
+  border:1px solid var(--line);
+  background:#fff;
+  color:var(--ink);
+  border-radius:999px;
+  padding:11px 20px;
+  cursor:pointer;
+  transition:border-color .18s ease, color .18s ease, background .18s ease;
+}
+.topic-flashcards-btn:hover, .topic-flashcards-btn:focus-visible{
+  border-color:var(--mint);
+  color:var(--mint);
+}
+.topic-flashcards-panel:not(:empty){
+  margin:-8px 0 26px;
+  background:var(--board);
+  border-radius:var(--radius);
+  padding:36px 28px;
 }
 
 /* ---------- fill-in-the-blank exercise ---------- */
@@ -867,7 +991,7 @@ button{font-family:inherit;}
   cursor:pointer;
   transition:background .18s ease;
 }
-.fillblank-btn:hover{ background:#348a76; }
+.fillblank-btn:hover{ background:var(--mint-dim); }
 .fillblank-btn-ghost{
   font-family:'IBM Plex Mono', monospace;
   font-size:.85rem;
@@ -906,7 +1030,7 @@ footer p{ max-width:640px; }
 
 @media (prefers-reduced-motion: reduce){
   *{ animation:none !important; transition:none !important; }
-  .reveal{ opacity:1; transform:none; }
+  .reveal > *{ opacity:1; transform:none; }
 }
 @media (max-width:640px){
   .section{ padding:64px 6vw 72px; }

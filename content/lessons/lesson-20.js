@@ -2,7 +2,7 @@ export const lesson = {
   slug: "adapted-literary-reading",
   level: "B1",
   module: "Módulo 4 — Primeras lecturas literarias adaptadas",
-  order: 4,
+  order: 10,
   title: "Primera lectura literaria adaptada",
   vocabulary: [
     { ru: "рассказ", transliteration: "rasskaz", es: "relato, cuento" },

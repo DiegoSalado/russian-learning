@@ -2,7 +2,7 @@ export const lesson = {
   slug: "participles-gerunds",
   level: "B2",
   module: "Módulo 1 — Participios y gerundios",
-  order: 1,
+  order: 2,
   title: "Participios y gerundios",
   vocabulary: [
     { ru: "читающий", transliteration: "chitayushchiy", es: "que lee, leyendo (participio activo)" },

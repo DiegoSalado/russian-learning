@@ -2,7 +2,7 @@ export const lesson = {
   slug: "extended-adapted-literature",
   level: "B2",
   module: "Módulo 4 — Literatura adaptada extensa",
-  order: 4,
+  order: 6,
   title: "Literatura adaptada extensa",
   vocabulary: [
     { ru: "гора", transliteration: "gora", es: "montaña" },

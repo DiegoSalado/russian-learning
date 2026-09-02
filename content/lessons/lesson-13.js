@@ -2,14 +2,13 @@ export const lesson = {
   slug: "genitive-accusative",
   level: "A2",
   module: "Módulo 3 — Primeros casos gramaticales",
-  order: 3,
-  title: "Genitivo y acusativo",
+  order: 5,
+  title: "Caso genitivo",
   vocabulary: [
     { ru: "Книга (им.)", transliteration: "kniga", es: "Libro (nominativo)" },
     { ru: "Книги (род.)", transliteration: "knigi", es: "del libro / libros (genitivo)" },
-    { ru: "Книгу (вин.)", transliteration: "knigu", es: "al libro / el libro (acusativo)" },
     { ru: "Брат (им.)", transliteration: "brat", es: "Hermano (nominativo)" },
-    { ru: "Брата (род./вин.)", transliteration: "brata", es: "del hermano / al hermano (genitivo/acusativo)" },
+    { ru: "Брата (род.)", transliteration: "brata", es: "del hermano (genitivo)" },
     { ru: "Нет", transliteration: "nyet", es: "No hay (+ genitivo)" },
     { ru: "У меня есть", transliteration: "u menya yest'", es: "Yo tengo" },
     { ru: "Магазин", transliteration: "magazin", es: "Tienda" },
@@ -17,26 +16,25 @@ export const lesson = {
     { ru: "Читать", transliteration: "chitat'", es: "Leer" },
   ],
   grammarPoint: {
-    title: "Caso genitivo y caso acusativo",
+    title: "Caso genitivo",
     explanation:
-      "El genitivo se usa para expresar posesión (книга брата, 'el libro del hermano'), cantidad (стакан воды) y negación de existencia con нет (нет книги). El acusativo marca el objeto directo del verbo: los sustantivos femeninos en -а cambian a -у (книга → книгу), mientras que los masculinos inanimados no cambian.",
+      "El genitivo se usa para expresar posesión (книга брата, 'el libro del hermano'), cantidad (стакан воды) y negación de existencia con нет (нет книги). También aparece después de la preposición у en construcciones como «у меня есть» (yo tengo, literalmente 'junto a mí hay').",
     tables: [
       {
-        title: "Declinación: книга y брат",
+        title: "Declinación: книга y брат en genitivo",
         columns: ["Caso", "книга", "брат"],
         rows: [
           ["Nominativo", "книга", "брат"],
           ["Genitivo", "книги", "брата"],
-          ["Acusativo", "книгу", "брата"],
         ],
-        note: "Брат es animado, por eso su acusativo coincide con el genitivo (брата); книга es inanimado, por eso su acusativo cambia a -у.",
+        note: "Los sustantivos femeninos en -а cambian a -и/-ы en genitivo; los masculinos añaden -а.",
       },
     ],
     examples: [
       { ru: "У меня нет книги.", transliteration: "u menya nyet knigi.", es: "No tengo libro. (genitivo con нет)" },
       { ru: "Это книга брата.", transliteration: "eto kniga brata.", es: "Este es el libro del hermano. (genitivo posesivo)" },
-      { ru: "Я читаю книгу.", transliteration: "ya chitayu knigu.", es: "Yo leo el libro. (acusativo)" },
-      { ru: "Он видит брата.", transliteration: "on vidit brata.", es: "Él ve al hermano. (acusativo animado)" },
+      { ru: "В магазине нет хлеба.", transliteration: "v magazinye nyet khleba.", es: "En la tienda no hay pan." },
+      { ru: "Стакан воды, пожалуйста.", transliteration: "stakan vody, pozhaluysta.", es: "Un vaso de agua, por favor." },
     ],
   },
   conversation: {
@@ -85,7 +83,7 @@ export const lesson = {
       {
         segments: [
           { ru: "Вчера сестра Максима попросила у него роман.", es: "Ayer la hermana de Maxim le pidió una novela." },
-          { ru: "Максим сказал, что у него нет этого романа дома, потому что он оставил его у друга.", es: "Maxim dijo que no tenía esa novela en casa, porque la había dejado en casa de un amigo." },
+          { ru: "Максим сказал, что у него нет этого романа дома. Он оставил его у друга.", es: "Maxim dijo que no tenía esa novela en casa. La había dejado en casa de un amigo." },
           { ru: "Тогда сестра решила пойти в библиотеку города.", es: "Entonces la hermana decidió ir a la biblioteca de la ciudad." },
         ],
       },

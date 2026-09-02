@@ -2,7 +2,7 @@ export const lesson = {
   slug: "everyday-narrative",
   level: "A2",
   module: "Módulo 5 — Narrativa cotidiana",
-  order: 5,
+  order: 9,
   title: "Narrativa cotidiana",
   vocabulary: [
     { ru: "Потом", transliteration: "potom", es: "Luego / después" },

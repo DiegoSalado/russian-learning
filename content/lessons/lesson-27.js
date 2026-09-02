@@ -2,7 +2,7 @@ export const lesson = {
   slug: "register-nuances",
   level: "B2",
   module: "Módulo 5 — Registro y matices",
-  order: 5,
+  order: 7,
   title: "Registro y matices del ruso",
   vocabulary: [
     { ru: "деньги", transliteration: "den'gi", es: "dinero (neutro)" },

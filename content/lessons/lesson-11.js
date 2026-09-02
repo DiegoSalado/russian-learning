@@ -2,7 +2,7 @@ export const lesson = {
   slug: "simple-past",
   level: "A2",
   module: "Módulo 1 — Pasado simple",
-  order: 1,
+  order: 2,
   title: "El pasado simple",
   vocabulary: [
     { ru: "Был / была / было", transliteration: "byl / byla / bylo", es: "Fue / estuvo (pasado de быть)" },
@@ -98,7 +98,7 @@ export const lesson = {
         segments: [
           { ru: "На следующий день он посетил музей и купил несколько подарков для семьи.", es: "Al día siguiente visitó un museo y compró varios regalos para su familia." },
           { ru: "Позавчера Дмитрий вернулся домой.", es: "Anteayer Dmitri regresó a casa." },
-          { ru: "Он сказал, что это было лучшее путешествие в его жизни.", es: "Dijo que fue el mejor viaje de su vida." },
+          { ru: "Он сказал, что это было очень хорошее путешествие в его жизни.", es: "Dijo que fue un viaje muy bueno de su vida." },
         ],
       },
     ],

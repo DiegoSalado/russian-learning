@@ -2,7 +2,7 @@ export const lesson = {
   slug: "routine",
   level: "A1",
   module: "Módulo 4 — Rutina y verbos en presente",
-  order: 4,
+  order: 7,
   title: "La rutina diaria",
   vocabulary: [
     { ru: "Вставать", transliteration: "vstavat'", es: "Levantarse" },
@@ -131,6 +131,9 @@ export const lesson = {
       { ru: "ужинает", transliteration: "uzhinayet" },
       { ru: "понимаем", transliteration: "ponimayem" },
       { ru: "отвечаете", transliteration: "otvechayete" },
+      { ru: "завтракает", transliteration: "zavtrakayet" },
+      { ru: "спит", transliteration: "spit" },
+      { ru: "суббота", transliteration: "subbota" },
     ],
     sentences: [
       { before: "Я ", answer: "встаю", after: " в семь часов.", es: "Me levanto a las siete." },
@@ -138,6 +141,9 @@ export const lesson = {
       { before: "Она ", answer: "ужинает", after: " в восемь часов.", es: "Ella cena a las ocho." },
       { before: "Мы ", answer: "понимаем", after: " по-русски.", es: "Entendemos en ruso." },
       { before: "Вы ", answer: "отвечаете", after: " быстро.", es: "Ustedes responden rápido." },
+      { before: "Что он делает утром? ☕ — Он ", answer: "завтракает", after: ".", es: "¿Qué hace él por la mañana? ☕ — Él desayuna." },
+      { before: "Что она делает вечером? 😴 — Она ", answer: "спит", after: ".", es: "¿Qué hace ella por la noche? 😴 — Ella duerme." },
+      { before: "Какой сегодня день? 📅 — Сегодня ", answer: "суббота", after: ".", es: "¿Qué día es hoy? 📅 — Hoy es sábado." },
     ],
   },
 };

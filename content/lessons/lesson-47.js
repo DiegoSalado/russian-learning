@@ -1,0 +1,97 @@
+export const lesson = {
+  slug: "b2-vocab-2",
+  level: "B2",
+  type: "vocabulary",
+  module: "Vocabulario 2",
+  order: 5,
+  title: "Vocabulario 2",
+  topics: [
+    {
+      title: "Cuerpo y naturaleza",
+      vocabulary: [
+        { ru: "Лицо", transliteration: "litso", es: "Cara" },
+        { ru: "Сердце", transliteration: "serdtse", es: "Corazón" },
+        { ru: "Рука", transliteration: "ruka", es: "Mano / brazo" },
+        { ru: "Голова", transliteration: "golova", es: "Cabeza" },
+        { ru: "Небо", transliteration: "nebo", es: "Cielo" },
+        { ru: "Солнце", transliteration: "solntse", es: "Sol" },
+        { ru: "Погода", transliteration: "pogoda", es: "Clima / tiempo (meteorológico)" },
+      ],
+      fillBlank: {
+        title: "Practicá cuerpo y naturaleza",
+        instructions: "Completá cada frase con la palabra correcta.",
+        wordBank: [
+          { ru: "лицо", transliteration: "litso" },
+          { ru: "сердце", transliteration: "serdtse" },
+          { ru: "руку", transliteration: "ruku" },
+          { ru: "голову", transliteration: "golovu" },
+          { ru: "небо", transliteration: "nebo" },
+          { ru: "солнце", transliteration: "solntse" },
+          { ru: "погода", transliteration: "pogoda" },
+        ],
+        sentences: [
+          { before: "У неё красивое ", answer: "лицо", after: ".", es: "Ella tiene una cara bonita." },
+          { before: "Моё ", answer: "сердце", after: " бьётся быстро.", es: "Mi corazón late rápido." },
+          { before: "Дай мне ", answer: "руку", after: ".", es: "Dame la mano." },
+          { before: "Он потерял ", answer: "голову", after: ".", es: "Él perdió la cabeza." },
+          { before: "Сегодня чистое ", answer: "небо", after: ".", es: "Hoy el cielo está despejado." },
+          { before: "", answer: "солнце", after: " светит.", es: "El sol brilla." },
+          { before: "Сегодня плохая ", answer: "погода", after: ".", es: "Hoy hace mal tiempo." },
+        ],
+      },
+    },
+    {
+      title: "Personas y lugares",
+      vocabulary: [
+        { ru: "Женщина", transliteration: "zhenshchina", es: "Mujer" },
+        { ru: "Школа", transliteration: "shkola", es: "Escuela" },
+        { ru: "Часть", transliteration: "chast'", es: "Parte" },
+        { ru: "Начальник", transliteration: "nachal'nik", es: "Jefe" },
+        { ru: "Квартира", transliteration: "kvartira", es: "Departamento" },
+        { ru: "Счёт", transliteration: "schyot", es: "Cuenta" },
+      ],
+      fillBlank: {
+        title: "Practicá personas y lugares",
+        instructions: "Completá cada frase con la palabra correcta.",
+        wordBank: [
+          { ru: "женщина", transliteration: "zhenshchina" },
+          { ru: "школу", transliteration: "shkolu" },
+          { ru: "часть", transliteration: "chast'" },
+          { ru: "начальник", transliteration: "nachal'nik" },
+          { ru: "квартира", transliteration: "kvartira" },
+          { ru: "счёт", transliteration: "schyot" },
+        ],
+        sentences: [
+          { before: "Это красивая ", answer: "женщина", after: ".", es: "Esta es una mujer hermosa." },
+          { before: "Дети идут в ", answer: "школу", after: ".", es: "Los niños van a la escuela." },
+          { before: "Это ", answer: "часть", after: " моей жизни.", es: "Esta es parte de mi vida." },
+          { before: "Мой ", answer: "начальник", after: " строгий.", es: "Mi jefe es estricto." },
+          { before: "У меня новая ", answer: "квартира", after: ".", es: "Tengo un departamento nuevo." },
+          { before: "Дайте, пожалуйста, ", answer: "счёт", after: ".", es: "La cuenta, por favor." },
+        ],
+      },
+    },
+    {
+      title: "Verbo, adjetivo y adverbio",
+      vocabulary: [
+        { ru: "Использовать", transliteration: "ispol'zovat'", es: "Usar" },
+        { ru: "Опасный", transliteration: "opasnyy", es: "Peligroso" },
+        { ru: "Немного", transliteration: "nemnogo", es: "Un poco" },
+      ],
+      fillBlank: {
+        title: "Practicá el verbo, el adjetivo y el adverbio",
+        instructions: "Completá cada frase con la palabra correcta.",
+        wordBank: [
+          { ru: "использует", transliteration: "ispol'zuyet" },
+          { ru: "опасный", transliteration: "opasnyy" },
+          { ru: "немного", transliteration: "nemnogo" },
+        ],
+        sentences: [
+          { before: "Она ", answer: "использует", after: " словарь каждый день.", es: "Ella usa el diccionario todos los días." },
+          { before: "Это ", answer: "опасный", after: " вопрос.", es: "Esta es una pregunta delicada / peligrosa." },
+          { before: "У меня есть ", answer: "немного", after: " времени.", es: "Tengo un poco de tiempo." },
+        ],
+      },
+    },
+  ],
+};

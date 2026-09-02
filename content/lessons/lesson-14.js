@@ -2,7 +2,7 @@ export const lesson = {
   slug: "descriptions-comparisons",
   level: "A2",
   module: "Módulo 4 — Descripciones y comparaciones",
-  order: 4,
+  order: 8,
   title: "Descripciones y comparaciones",
   vocabulary: [
     { ru: "Холодный / тёплый", transliteration: "kholodnyy / tyoplyy", es: "Frío / cálido" },

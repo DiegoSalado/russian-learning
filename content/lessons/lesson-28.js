@@ -2,7 +2,7 @@ export const lesson = {
   slug: "review-b2",
   level: "B2",
   module: "Módulo 6 — Proyecto de cierre B2",
-  order: 6,
+  order: 8,
   title: "Repaso integrador de B2",
   vocabulary: [
     { ru: "живущий", transliteration: "zhivushchiy", es: "que vive (participio activo)" },

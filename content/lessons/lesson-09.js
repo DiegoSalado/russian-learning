@@ -2,7 +2,7 @@ export const lesson = {
   slug: "numbers",
   level: "A1",
   module: "Práctica extra",
-  order: 9,
+  order: 14,
   title: "Números del 1 al 10",
   vocabulary: [
     { ru: "Один", transliteration: "odin", es: "Uno" },
@@ -117,12 +117,18 @@ export const lesson = {
       { ru: "тридцать", transliteration: "tridtsat'" },
       { ru: "пятьдесят", transliteration: "pyat'desyat" },
       { ru: "сто", transliteration: "sto" },
+      { ru: "три", transliteration: "tri" },
+      { ru: "пять", transliteration: "pyat'" },
+      { ru: "два", transliteration: "dva" },
     ],
     sentences: [
       { before: "Мне ", answer: "двадцать", after: " лет.", es: "Tengo veinte años." },
       { before: "Мне ", answer: "тридцать", after: " лет.", es: "Tengo treinta años." },
       { before: "У меня ", answer: "пятьдесят", after: " рублей.", es: "Tengo cincuenta rublos." },
       { before: "Билет стоит ", answer: "сто", after: " рублей.", es: "El boleto cuesta cien rublos." },
+      { before: "Сколько? 🍎🍎🍎 — ", answer: "три", after: ".", es: "¿Cuántos? 🍎🍎🍎 — Tres." },
+      { before: "Сколько? 🍌🍌🍌🍌🍌 — ", answer: "пять", after: ".", es: "¿Cuántos? 🍌🍌🍌🍌🍌 — Cinco." },
+      { before: "Сколько? 🚗🚗 — ", answer: "два", after: ".", es: "¿Cuántos? 🚗🚗 — Dos." },
     ],
   },
 };

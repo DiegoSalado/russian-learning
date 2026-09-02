@@ -2,7 +2,7 @@ export const lesson = {
   slug: "press-informative-texts",
   level: "B2",
   module: "Módulo 3 — Prensa y textos informativos",
-  order: 3,
+  order: 4,
   title: "Prensa y textos informativos",
   vocabulary: [
     { ru: "власть", transliteration: "vlast'", es: "poder, autoridad" },
