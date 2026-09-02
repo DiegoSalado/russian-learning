@@ -473,6 +473,9 @@ function renderLessonsMenu(currentLevel) {
     btn.textContent = lvl.label;
     btn.addEventListener("mouseenter", () => showLessons(lvl.code));
     btn.addEventListener("focus", () => showLessons(lvl.code));
+    btn.addEventListener("click", () => {
+      window.location.href = `../index.html?level=${lvl.code}`;
+    });
     levelsEl.appendChild(btn);
   });
 

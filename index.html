@@ -84,7 +84,12 @@
     tabsEl.appendChild(tab);
   });
 
-  renderLevel(levels[0].code);
+  const requestedLevel = new URLSearchParams(window.location.search).get("level");
+  const initialLevel = levels.some((l) => l.code === requestedLevel) ? requestedLevel : levels[0].code;
+  renderLevel(initialLevel);
+  if (requestedLevel) {
+    document.getElementById("lessons").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 
   const io = new IntersectionObserver(
     (entries) => {
