@@ -1,4 +1,4 @@
-import { speak, getRate, toggleRate, supportsSpeech } from "./speech.js";
+import { speak, stopSpeaking, getRate, toggleRate, supportsSpeech } from "./speech.js";
 import { levels, lessonsIndex } from "../../content/lessons-index.js";
 import { runFlashcardsSession, toFlashcardEntries } from "./render-flashcards.js";
 
@@ -19,6 +19,37 @@ export function wrapWords(text) {
       return `${pre}<span class="w" tabindex="0" data-word="${core}">${core}${waveHTML()}</span>${post} `;
     })
     .join("");
+}
+
+// Botón ▶ compartido por líneas de diálogo y lecturas completas: un solo
+// clic reproduce, un segundo clic sobre el MISMO botón mientras suena lo
+// detiene. Solo puede haber un botón "reproduciendo" a la vez en toda la
+// página — al arrancar uno nuevo, el anterior vuelve a su estado normal
+// (speak() ya cancela el audio previo; acá solo sincronizamos el ícono).
+let activePlayButton = null;
+
+function wirePlayToggle(btn, getText, { playingLabel, idleLabel }) {
+  function reset() {
+    btn.classList.remove("playing");
+    btn.textContent = idleLabel;
+    if (activePlayButton === btn) activePlayButton = null;
+  }
+  btn.addEventListener("click", () => {
+    if (btn.classList.contains("playing")) {
+      stopSpeaking();
+      reset();
+      return;
+    }
+    if (activePlayButton && activePlayButton !== btn) {
+      activePlayButton.classList.remove("playing");
+      activePlayButton.textContent = activePlayButton.dataset.idleLabel ?? activePlayButton.textContent;
+    }
+    btn.dataset.idleLabel = idleLabel;
+    btn.classList.add("playing");
+    btn.textContent = playingLabel;
+    activePlayButton = btn;
+    speak(getText(), { onend: reset });
+  });
 }
 
 document.addEventListener("mouseenter", handleWordEnter, true);
@@ -294,16 +325,7 @@ function renderConversationSection(root, conversation, number) {
     btn.className = "play-btn";
     btn.setAttribute("aria-label", "Reproducir línea completa");
     btn.textContent = "▶";
-    btn.addEventListener("click", () => {
-      btn.classList.add("playing");
-      btn.textContent = "■";
-      speak(fullRu, {
-        onend: () => {
-          btn.classList.remove("playing");
-          btn.textContent = "▶";
-        },
-      });
-    });
+    wirePlayToggle(btn, () => fullRu, { playingLabel: "■", idleLabel: "▶" });
 
     const p = document.createElement("p");
     p.className = "line-text";
@@ -393,15 +415,9 @@ function renderReadingSection(root, reading, number) {
   const fullText = reading.paragraphs
     .flatMap((para) => para.segments.map((seg) => seg.ru))
     .join(" ");
-  playBtn.addEventListener("click", () => {
-    playBtn.classList.add("playing");
-    playBtn.textContent = "■ Reproduciendo…";
-    speak(fullText, {
-      onend: () => {
-        playBtn.classList.remove("playing");
-        playBtn.textContent = "▶ Escuchar texto completo";
-      },
-    });
+  wirePlayToggle(playBtn, () => fullText, {
+    playingLabel: "■ Reproduciendo…",
+    idleLabel: "▶ Escuchar texto completo",
   });
 
   const translationCard = document.createElement("div");

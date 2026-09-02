@@ -48,3 +48,8 @@ export function speak(text, { onend } = {}) {
   speechSynthesis.speak(u);
   return u;
 }
+
+export function stopSpeaking() {
+  if (!supportsSpeech) return;
+  speechSynthesis.cancel();
+}
