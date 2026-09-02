@@ -737,6 +737,32 @@ function renderTopbar(root, lesson) {
   });
 }
 
+function getOrderedLessons() {
+  return levels.flatMap((lvl) =>
+    lessonsIndex
+      .filter((item) => item.level === lvl.code)
+      .sort((a, b) => a.order - b.order)
+  );
+}
+
+function renderNextLessonSection(root, lesson) {
+  if (!lesson?.slug) return;
+  const ordered = getOrderedLessons();
+  const currentIndex = ordered.findIndex((item) => item.slug === lesson.slug);
+  if (currentIndex === -1 || currentIndex === ordered.length - 1) return;
+  const next = ordered[currentIndex + 1];
+
+  const wrap = document.createElement("div");
+  wrap.className = "next-lesson-cta";
+  wrap.innerHTML = `
+    <a class="next-lesson-btn" href="${next.file}">
+      <span class="next-lesson-btn-label">Siguiente lección</span>
+      <span>${next.title} →</span>
+    </a>
+  `;
+  root.appendChild(wrap);
+}
+
 function renderFooter(root) {
   const footer = document.createElement("footer");
   footer.innerHTML = `<p>La voz se genera con la síntesis de voz de tu navegador (Web Speech API), así que la calidad varía según el dispositivo y funciona mejor en Chrome o Edge.</p>`;
@@ -790,6 +816,7 @@ export function renderLesson(lesson) {
   if (lesson.grammarPoint) renderGrammarSection(root, lesson.grammarPoint, n++);
   if (lesson.conversation) renderConversationSection(root, lesson.conversation, n++);
   renderReadingSection(root, lesson.reading, n++);
+  renderNextLessonSection(root, lesson);
   renderFooter(root);
   renderSpeechNotice(root);
   setupScrollReveal(root);
