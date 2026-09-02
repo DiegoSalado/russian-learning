@@ -481,6 +481,13 @@ function renderLessonsMenu(currentLevel) {
     });
   }
 
+  // En dispositivos sin hover (celular/tablet), el primer tap en un nivel
+  // solo muestra su lista de lecciones — como haría el hover en desktop —
+  // y recién el segundo tap (con ese nivel ya activo) navega al índice
+  // filtrado. En desktop, donde el hover ya mostró la vista previa antes
+  // del click, un solo click navega directo.
+  const canHover = window.matchMedia("(hover: hover)").matches;
+
   levels.forEach((lvl) => {
     const btn = document.createElement("button");
     btn.className = "lessons-menu-level";
@@ -490,7 +497,11 @@ function renderLessonsMenu(currentLevel) {
     btn.addEventListener("mouseenter", () => showLessons(lvl.code));
     btn.addEventListener("focus", () => showLessons(lvl.code));
     btn.addEventListener("click", () => {
-      window.location.href = `../index.html?level=${lvl.code}`;
+      if (canHover || btn.classList.contains("active")) {
+        window.location.href = `../index.html?level=${lvl.code}`;
+      } else {
+        showLessons(lvl.code);
+      }
     });
     levelsEl.appendChild(btn);
   });
