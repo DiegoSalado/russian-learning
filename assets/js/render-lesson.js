@@ -681,7 +681,11 @@ function renderFillBlankSection(root, fillBlank, number, idSuffix) {
     blank.addEventListener("drop", (e) => {
       e.preventDefault();
       const word = e.dataTransfer.getData("text/plain");
-      if (!word) return;
+      // Solo se acepta texto que ya está en el banco de palabras de esta
+      // lección: evita insertar en el DOM lo que sea que el usuario haya
+      // arrastrado desde afuera de la página (drag-and-drop de otra pestaña
+      // u origen), ya que wrapWords() no escapa HTML.
+      if (!word || !fillBlank.wordBank.some((w) => w.ru === word)) return;
       if (blank.dataset.filled) clearBlank(blank);
       placeWord(blank, word);
     });
