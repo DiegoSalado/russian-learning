@@ -160,7 +160,7 @@ export function renderVocabularyPage(vocabulary) {
     results.forEach((r) => grid.appendChild(renderVocabCard(r)));
     countEl.textContent =
       results.length === 0
-        ? "Sin resultados — probá con otra palabra o quitá los filtros."
+        ? "Sin resultados — prueba con otra palabra o quita los filtros."
         : `${results.length} ${results.length === 1 ? "palabra encontrada" : "palabras encontradas"}`;
   }
 

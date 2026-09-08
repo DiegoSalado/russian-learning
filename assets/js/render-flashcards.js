@@ -131,7 +131,7 @@ export function runFlashcardsSession(container, words, meta = {}) {
           <button class="flashcard-btn flashcard-btn-unknown" aria-label="No la sé">✕ No la sé</button>
           <button class="flashcard-btn flashcard-btn-known" aria-label="La sé">✓ La sé</button>
         </div>
-        <p class="flashcard-hint">Tocá la tarjeta para darla vuelta y ver el significado. Deslizá o usá los botones (← / →) para responder.</p>
+        <p class="flashcard-hint">Toca la tarjeta para darle vuelta y ver el significado. Desliza o usa los botones (← / →) para responder.</p>
       </div>
     `;
     wireHeader();
@@ -145,7 +145,7 @@ export function runFlashcardsSession(container, words, meta = {}) {
       <div class="flashcard-stage">
         ${flipCardHTML(entry)}
         <div class="flashcard-writing" hidden>
-          <label class="flashcard-writing-label" for="flashcardWritingInput">Escribí la palabra en ruso:</label>
+          <label class="flashcard-writing-label" for="flashcardWritingInput">Escribe la palabra en ruso:</label>
           <input type="text" id="flashcardWritingInput" class="flashcard-writing-input" autocomplete="off" autocapitalize="off" spellcheck="false">
           <div class="flashcard-writing-actions">
             <button type="button" class="flashcard-btn flashcard-check">Comprobar</button>
@@ -153,7 +153,7 @@ export function runFlashcardsSession(container, words, meta = {}) {
           </div>
           <p class="flashcard-writing-feedback" aria-live="polite"></p>
         </div>
-        <p class="flashcard-hint">Repaso de palabras difíciles: escuchá, dala vuelta para ver el significado y después escribila.</p>
+        <p class="flashcard-hint">Repaso de palabras difíciles: escucha, dale vuelta para ver el significado y después escríbela.</p>
       </div>
     `;
     wireHeader();
@@ -283,7 +283,7 @@ export function runFlashcardsSession(container, words, meta = {}) {
       const correct = normalize(input.value) === normalize(entry.lemma);
       feedback.textContent = correct
         ? `¡Correcto! ${entry.lemma}`
-        : `Todavía no — la palabra es "${entry.lemma}". Probá de nuevo.`;
+        : `Todavía no — la palabra es "${entry.lemma}". Prueba de nuevo.`;
       feedback.classList.toggle("correct", correct);
       feedback.classList.toggle("incorrect", !correct);
       input.classList.toggle("correct", correct);
@@ -350,7 +350,7 @@ export function renderFlashcardsMode(vocabulary, container) {
   function renderLevelPicker() {
     container.innerHTML = `
       <div class="flashcards-picker">
-        <p class="section-note">Elegí qué querés practicar y empezá una sesión de hasta ${SESSION_SIZE} palabras.</p>
+        <p class="section-note">Elige qué quieres practicar y empieza una sesión de hasta ${SESSION_SIZE} palabras.</p>
         <div class="flashcards-pos-tabs" id="flashcardsPosTabs"></div>
         <div class="flashcards-level-grid"></div>
       </div>

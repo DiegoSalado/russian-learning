@@ -573,7 +573,7 @@ function renderFillBlankSection(root, fillBlank, number, idSuffix) {
   section.innerHTML = `
     <p class="eyebrow">${String(number).padStart(2, "0")} — Completa las frases</p>
     <h2>${fillBlank.title}</h2>
-    <p class="section-note">${fillBlank.instructions ?? "Arrastrá cada palabra hasta su hueco, o hacé click en la palabra y después en el hueco."}</p>
+    <p class="section-note">${fillBlank.instructions ?? "Arrastra cada palabra hasta su hueco, o haz click en la palabra y después en el hueco."}</p>
     <div class="fillblank-bank"></div>
     <div class="fillblank-sentences"></div>
     <div class="fillblank-actions">
@@ -599,7 +599,7 @@ function renderFillBlankSection(root, fillBlank, number, idSuffix) {
     blank.dataset.index = String(i);
     blank.tabIndex = 0;
     blank.setAttribute("role", "button");
-    blank.setAttribute("aria-label", "Espacio para completar, tocá para elegir una palabra");
+    blank.setAttribute("aria-label", "Espacio para completar, toca para elegir una palabra");
     blank.textContent = "______";
     const after = document.createElement("span");
     after.innerHTML = s.after ? wrapWords(s.after) : "";

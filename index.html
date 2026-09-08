@@ -32,8 +32,8 @@
 
 <section class="hero">
   <p class="eyebrow">Русский · Pronunciación en vivo</p>
-  <h1>Pasa el cursor.<br><span class="accent">Escucha.</span><br>Aprende ruso.</h1>
-  <p class="lead">Cada palabra rusa en este sitio tiene voz propia. Elegí una lección para empezar — vocabulario, gramática y una conversación real, todo con audio.</p>
+  <h1><span id="heroAction">Pasa el cursor en las palabras.</span><br><span class="accent">Escucha.</span><br>Aprende ruso.</h1>
+  <p class="lead">Cada palabra rusa en este sitio tiene voz propia. Elige una lección para empezar — vocabulario, gramática y una conversación real, todo con audio.</p>
 </section>
 
 <section class="section section-paper reveal" id="lessons">
@@ -50,6 +50,10 @@
 
 <script type="module">
   import { levels, lessonsIndex } from "./content/lessons-index.js";
+
+  if (!window.matchMedia("(hover: hover)").matches) {
+    document.getElementById("heroAction").textContent = "Da click en las palabras.";
+  }
 
   const tabsEl = document.getElementById("levelTabs");
   const objectiveEl = document.getElementById("levelObjective");
@@ -68,7 +72,7 @@
     if (items.length === 0) {
       const note = document.createElement("p");
       note.className = "section-note";
-      note.textContent = "Todavía no hay lecciones para este nivel — mientras tanto, explorá el vocabulario de este nivel en la sección Vocabulario.";
+      note.textContent = "Todavía no hay lecciones para este nivel — mientras tanto, explora el vocabulario de este nivel en la sección Vocabulario.";
       grid.appendChild(note);
       return;
     }
