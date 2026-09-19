@@ -28,7 +28,7 @@
 
   <div class="mode-tabs" id="vocabModeTabs">
     <button class="mode-tab active" type="button" data-mode="search">🔎 Buscador</button>
-    <button class="mode-tab" type="button" data-mode="flashcards">🃏 Flashcards</button>
+    <button class="mode-tab" type="button" data-mode="flashcards">🎓 Study</button>
   </div>
 
   <section class="section section-paper" id="vocab-search">
@@ -44,7 +44,7 @@
   </section>
 
   <section class="section section-board" id="vocab-flashcards" hidden>
-    <p class="eyebrow">Flashcards</p>
+    <p class="eyebrow">Study</p>
     <h2>Practica de memoria</h2>
     <div id="flashcardsRoot"></div>
   </section>
@@ -57,7 +57,7 @@
 <script type="module">
   import { vocabulary } from "./content/vocabulary.js";
   import { renderVocabularyPage } from "./assets/js/render-vocabulary.js";
-  import { renderFlashcardsMode } from "./assets/js/render-flashcards.js";
+  import { renderStudyVocabulary } from "./assets/js/render-study.js";
 
   renderVocabularyPage(vocabulary);
   document.getElementById("vocabCount").textContent =
@@ -76,7 +76,7 @@
       flashcardsSection.hidden = mode !== "flashcards";
       if (mode === "flashcards" && !flashcardsStarted) {
         flashcardsStarted = true;
-        renderFlashcardsMode(vocabulary, flashcardsRoot);
+        renderStudyVocabulary(vocabulary, flashcardsRoot);
       }
     });
   });

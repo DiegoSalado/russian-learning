@@ -10,7 +10,7 @@ import {
   priorityScore,
 } from "./flashcards-progress.js";
 
-function shuffle(arr) {
+export function shuffle(arr) {
   const a = arr.slice();
   for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -334,7 +334,10 @@ function pickSessionWords(vocabulary, level, pos, progressData, count) {
   return ordered.slice(0, count);
 }
 
-export function renderFlashcardsMode(vocabulary, container) {
+// `run` permite que Study reutilice este picker de nivel/categoría para otro
+// motor de sesión; por defecto arranca flashcards, como siempre. `onBack`
+// (opcional) agrega un "← Volver" al picker.
+export function renderFlashcardsMode(vocabulary, container, { run = runFlashcardsSession, onBack } = {}) {
   const progressData = loadProgress();
   const SESSION_SIZE = 50;
   const posChoices = ["Todos", ...posOptions(vocabulary)];
@@ -350,11 +353,13 @@ export function renderFlashcardsMode(vocabulary, container) {
   function renderLevelPicker() {
     container.innerHTML = `
       <div class="flashcards-picker">
+        ${onBack ? '<div class="flashcard-topline"><button type="button" class="flashcard-back-btn breadcrumb">← Volver</button></div>' : ""}
         <p class="section-note">Elige qué quieres practicar y empieza una sesión de hasta ${SESSION_SIZE} palabras.</p>
         <div class="flashcards-pos-tabs" id="flashcardsPosTabs"></div>
         <div class="flashcards-level-grid"></div>
       </div>
     `;
+    container.querySelector(".flashcard-back-btn")?.addEventListener("click", onBack);
     const posTabsEl = container.querySelector("#flashcardsPosTabs");
     posChoices.forEach((pos) => {
       const tab = document.createElement("button");
@@ -388,7 +393,7 @@ export function renderFlashcardsMode(vocabulary, container) {
   function startSession(level) {
     const words = pickSessionWords(vocabulary, level, activePos, progressData, SESSION_SIZE);
     const posLabel = activePos !== "Todos" ? ` · ${POS_LABELS[activePos]}` : "";
-    runFlashcardsSession(container, words, {
+    run(container, words, {
       subtitle: `${level}${posLabel}`,
       exitLabel: "← Cambiar de nivel",
       onExit: renderLevelPicker,

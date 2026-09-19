@@ -1,6 +1,7 @@
 import { speak, stopSpeaking, getRate, toggleRate, supportsSpeech } from "./speech.js";
 import { levels, lessonsIndex } from "../../content/lessons-index.js";
-import { runFlashcardsSession, toFlashcardEntries } from "./render-flashcards.js";
+import { toFlashcardEntries } from "./render-flashcards.js";
+import { runStudy } from "./render-study.js";
 
 export function waveHTML() {
   return '<span class="wave"><span></span><span></span><span></span><span></span></span>';
@@ -184,7 +185,7 @@ function renderVocabSection(root, vocabulary, number, isVocabLesson, idSuffix, h
 function attachTopicFlashcards(section, grid, vocabulary, heading) {
   const launcher = document.createElement("div");
   launcher.className = "topic-flashcards-launcher";
-  launcher.innerHTML = `<button type="button" class="topic-flashcards-btn">🃏 Practicar estas palabras con flashcards</button>`;
+  launcher.innerHTML = `<button type="button" class="topic-flashcards-btn">🎓 Practicar estas palabras con Study</button>`;
   const panel = document.createElement("div");
   panel.className = "topic-flashcards-panel";
   panel.hidden = true;
@@ -197,7 +198,7 @@ function attachTopicFlashcards(section, grid, vocabulary, heading) {
     grid.style.display = opening ? "none" : "";
     if (!opening) return;
     panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    runFlashcardsSession(panel, toFlashcardEntries(vocabulary), {
+    runStudy(panel, toFlashcardEntries(vocabulary), {
       subtitle: heading,
       exitLabel: "✕ Cerrar",
       onExit: () => {
