@@ -5,7 +5,22 @@ import { loadProgress, recordExposure } from "./flashcards-progress.js";
 
 const SESSION_LENGTH = 10;
 const MAX_OPTIONS = 4;
-const EXERCISE_TYPES = ["audio-to-ru", "ru-to-es", "es-to-ru", "matching"];
+const EXERCISE_TYPES = ["audio-to-ru", "ru-to-es", "es-to-ru", "matching", "conjugation"];
+const PRONOUNS = [["я", "я"], ["ты", "ты"], ["он/она", "он"], ["мы", "мы"], ["вы", "вы"], ["они", "они"]]; // [etiqueta, texto a pronunciar]
+
+// Pares pronombre ↔ forma conjugada, si el entry (de vocabulary.js) trae las 6 personas
+// en presente (o futuro, para verbos perfectivos) y ninguna forma se repite.
+function conjugationPairs(word) {
+  if (!word.forms) return null;
+  for (const tense of ["Presente", "Futuro"]) {
+    const pairs = PRONOUNS.map(([label, say]) => {
+      const f = word.forms.find((x) => x.label === `${tense} · ${label}`);
+      return f && { id: label, left: label, leftSpeak: say, right: f.form, rightTr: f.transliteration, rightSpeak: f.form };
+    });
+    if (pairs.every(Boolean) && new Set(pairs.map((p) => p.right)).size === pairs.length) return { tense, pairs };
+  }
+  return null;
+}
 
 // Las palabras son entries {id, lemma, transliteration, es} (ver toFlashcardEntries).
 
@@ -25,17 +40,33 @@ function pickDistractors(words, word, count) {
   return picked;
 }
 
-// Punto único para agregar tipos nuevos: devuelve {type, word, options} o {type:"matching", word, pairs}.
+// Punto único para agregar tipos nuevos: devuelve {type, word, options} o, para los tipos
+// de emparejar, {type, word, pairs, heads, prompt}.
 export function createNextExercise(words, word, lastType) {
   const group = shuffle([word, ...pickDistractors(words, word, MAX_OPTIONS - 1)]);
+  const conj = conjugationPairs(word);
   const types = EXERCISE_TYPES.filter(
     (t) =>
       t !== lastType &&
       (t !== "audio-to-ru" || supportsSpeech) &&
-      (t !== "matching" || group.length >= 3)
+      (t !== "matching" || group.length >= 3) &&
+      (t !== "conjugation" || conj)
   );
   const type = types[Math.floor(Math.random() * types.length)];
-  return type === "matching" ? { type, word, pairs: group } : { type, word, options: group };
+  if (type === "conjugation") {
+    return {
+      type,
+      word,
+      pairs: conj.pairs,
+      heads: ["Pronombre", "Conjugación"],
+      prompt: `Conjuga «${word.lemma}» (${word.es}) en ${conj.tense.toLowerCase()}`,
+    };
+  }
+  if (type === "matching") {
+    const pairs = group.map((w) => ({ id: w.id, left: w.lemma, leftSpeak: w.lemma, right: w.es }));
+    return { type, word, pairs, heads: ["Ruso", "Español"], prompt: "Empareja cada palabra con su traducción" };
+  }
+  return { type, word, options: group };
 }
 
 export function renderDynamicStart(container, { subtitle, onBack, onStart }) {
@@ -126,7 +157,7 @@ export function runDynamicSession(container, words, meta = {}) {
   function renderExercise() {
     const ex = state.current;
     const body =
-      ex.type === "matching" ? matchingHTML(ex) : ex.type === "audio-to-ru" ? audioHTML(ex) : translationHTML(ex);
+      ex.pairs ? matchingHTML(ex) : ex.type === "audio-to-ru" ? audioHTML(ex) : translationHTML(ex);
     container.innerHTML = `
       ${header()}
       <div class="study-stage">
@@ -135,7 +166,7 @@ export function runDynamicSession(container, words, meta = {}) {
       </div>
     `;
     container.querySelector(".flashcard-back-btn").addEventListener("click", leave);
-    if (ex.type === "matching") wireMatching(ex);
+    if (ex.pairs) wireMatching(ex);
     else wireChoice(ex);
     if (ex.type === "audio-to-ru" || ex.type === "ru-to-es") speak(ex.word.lemma);
   }
@@ -204,13 +235,17 @@ export function runDynamicSession(container, words, meta = {}) {
   // ---------- emparejar ----------
 
   function matchingHTML(ex) {
-    const left = ex.pairs.map((p) => `<button type="button" class="study-match-item" data-side="ru" data-id="${p.id}">${p.lemma}</button>`);
-    const right = shuffle(ex.pairs).map((p) => `<button type="button" class="study-match-item" data-side="es" data-id="${p.id}">${p.es}</button>`);
+    const item = (side, p) => {
+      const text = side === "left" ? p.left : p.right;
+      const tr = side === "right" && p.rightTr ? `<span class="study-option-tr">${p.rightTr}</span>` : "";
+      return `<button type="button" class="study-match-item" data-side="${side}" data-id="${p.id}">${text}${tr}</button>`;
+    };
+    const [leftHead, rightHead] = ex.heads;
     return `
-      <p class="study-prompt">Empareja cada palabra con su traducción</p>
+      <p class="study-prompt">${ex.prompt}</p>
       <div class="study-match">
-        <div class="study-match-col" role="group" aria-label="Ruso"><p class="study-match-head">Ruso</p>${left.join("")}</div>
-        <div class="study-match-col" role="group" aria-label="Español"><p class="study-match-head">Español</p>${right.join("")}</div>
+        <div class="study-match-col" role="group" aria-label="${leftHead}"><p class="study-match-head">${leftHead}</p>${ex.pairs.map((p) => item("left", p)).join("")}</div>
+        <div class="study-match-col" role="group" aria-label="${rightHead}"><p class="study-match-head">${rightHead}</p>${shuffle(ex.pairs).map((p) => item("right", p)).join("")}</div>
       </div>
     `;
   }
@@ -226,7 +261,9 @@ export function runDynamicSession(container, words, meta = {}) {
       item.addEventListener("click", () => {
         if (busy || item.classList.contains("matched")) return;
         const side = item.dataset.side;
-        if (side === "ru") speakOnce(ex.pairs.find((p) => p.id === item.dataset.id).lemma);
+        const pair = ex.pairs.find((p) => p.id === item.dataset.id);
+        const say = side === "left" ? pair.leftSpeak : pair.rightSpeak;
+        if (say) speakOnce(say);
         if (selected && selected.dataset.side === side) {
           selected.classList.remove("selected");
           selected = null;
@@ -236,11 +273,11 @@ export function runDynamicSession(container, words, meta = {}) {
           item.classList.add("selected");
           return;
         }
-        const pair = [selected, item];
+        const chosen = [selected, item];
         selected.classList.remove("selected");
         selected = null;
-        if (pair[0].dataset.id === pair[1].dataset.id) {
-          pair.forEach((el) => {
+        if (chosen[0].dataset.id === chosen[1].dataset.id) {
+          chosen.forEach((el) => {
             mark(el, "correct");
             el.classList.add("matched");
             el.setAttribute("aria-disabled", "true");
@@ -251,9 +288,9 @@ export function runDynamicSession(container, words, meta = {}) {
         }
         mistakes += 1;
         busy = true;
-        pair.forEach((el) => mark(el, "incorrect"));
+        chosen.forEach((el) => mark(el, "incorrect"));
         setTimeout(() => {
-          pair.forEach((el) => {
+          chosen.forEach((el) => {
             el.classList.remove("incorrect");
             delete el.dataset.status;
             el.removeAttribute("aria-label");

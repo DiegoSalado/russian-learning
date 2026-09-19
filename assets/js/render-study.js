@@ -25,6 +25,20 @@ export function renderStudyModeSelector(container, { exitLabel, onExit, onPick }
   });
 }
 
+// Las palabras de una lección no traen conjugaciones; si alguna no las tiene, se
+// buscan por lema en el diccionario (vocabulary.js) para habilitar el ejercicio de
+// conjugación. El diccionario solo se descarga si hace falta.
+async function withVerbForms(words) {
+  if (words.every((w) => w.forms)) return words;
+  const { vocabulary } = await import("../../content/vocabulary.js");
+  const norm = (t) => t.toLowerCase().replace(/ё/g, "е").trim();
+  const verbs = new Map(vocabulary.filter((v) => v.pos === "verb").map((v) => [norm(v.lemma), v]));
+  return words.map((w) => {
+    const hit = w.forms ? null : verbs.get(norm(w.lemma));
+    return hit ? { ...w, forms: hit.forms } : w;
+  });
+}
+
 // meta = { subtitle, exitLabel, onExit } — el mismo contrato que runFlashcardsSession.
 function startMode(mode, container, words, meta) {
   if (mode === "flashcards") {
@@ -34,7 +48,10 @@ function startMode(mode, container, words, meta) {
   renderDynamicStart(container, {
     subtitle: meta.subtitle,
     onBack: meta.onExit,
-    onStart: () => runDynamicSession(container, words, { subtitle: meta.subtitle, onExit: meta.onExit }),
+    onStart: async () => {
+      const enriched = await withVerbForms(words);
+      runDynamicSession(container, enriched, { subtitle: meta.subtitle, onExit: meta.onExit });
+    },
   });
 }
 
