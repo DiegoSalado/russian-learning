@@ -210,7 +210,7 @@ function attachTopicFlashcards(section, grid, vocabulary, heading) {
   });
 }
 
-function renderGrammarBoxes(container, tables) {
+export function renderGrammarBoxes(container, tables) {
   if (!tables || !tables.length) return;
   const wrap = document.createElement("div");
   wrap.className = "grammar-boxes";
@@ -736,6 +736,12 @@ function renderTopbar(root, lesson) {
   vocabLink.href = "../vocabulary.html";
   vocabLink.textContent = "Vocabulario";
   nav.appendChild(vocabLink);
+
+  const grammarLink = document.createElement("a");
+  grammarLink.className = "breadcrumb";
+  grammarLink.href = "../grammar.html";
+  grammarLink.textContent = "Gramática";
+  nav.appendChild(grammarLink);
 
   const speedToggle = document.createElement("button");
   speedToggle.className = "speed-toggle";

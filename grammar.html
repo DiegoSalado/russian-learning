@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gramática — Privet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+<script type="module" src="assets/js/theme.js"></script>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-nav">
+    <a class="breadcrumb" href="index.html">← Inicio</a>
+    <a class="breadcrumb" href="vocabulary.html">Vocabulario</a>
+  </div>
+  <div class="logo">Privet<em>.</em></div>
+</div>
+
+<section class="hero">
+  <p class="eyebrow">Gramática · Cuadros de referencia</p>
+  <h1>Todos los <span class="accent">cuadros</span> en un lugar.</h1>
+  <p class="lead">Elige un nivel y abre el tema que quieras repasar. Pasa el cursor por cualquier palabra rusa para escucharla.</p>
+</section>
+
+<section class="section section-paper" id="grammar-root">
+  <p class="section-note">Cargando cuadros…</p>
+</section>
+
+<footer>
+  <p>La voz se genera con la síntesis de voz de tu navegador (Web Speech API).</p>
+</footer>
+
+<script type="module">
+  import { renderGrammarPage } from "./assets/js/render-grammar.js";
+  renderGrammarPage(document.getElementById("grammar-root"));
+</script>
+
+</body>
+</html>

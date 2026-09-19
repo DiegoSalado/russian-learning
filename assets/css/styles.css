@@ -276,7 +276,8 @@ button{font-family:inherit;}
   border-color:var(--marigold);
   color:var(--marigold-dim);
 }
-.section-board .w:hover, .section-board .w:focus-visible, .section-board .w.active{
+.section-board .w:hover, .section-board .w:focus-visible, .section-board .w.active,
+.grammar-topic-body .w:hover, .grammar-topic-body .w:focus-visible, .grammar-topic-body .w.active{
   border-color:var(--marigold);
   color:var(--marigold-light);
 }
@@ -1173,3 +1174,46 @@ footer p{ max-width:640px; }
   .section{ padding:64px 6vw 72px; }
   .hero{ padding:90px 6vw 60px; }
 }
+
+/* ---------- página de gramática: temas desplegables ---------- */
+.grammar-level{ max-width:860px; margin:0 0 36px; }
+.grammar-level-title{ font-size:1.5rem; margin:0 0 10px; }
+.grammar-topic{ border-bottom:1px solid var(--line); }
+.grammar-topic summary{
+  display:flex;
+  align-items:baseline;
+  gap:12px;
+  padding:14px 4px;
+  cursor:pointer;
+  list-style:none;
+  outline-offset:2px;
+}
+.grammar-topic summary::-webkit-details-marker{ display:none; }
+.grammar-topic summary:hover .grammar-topic-name, .grammar-topic summary:focus-visible .grammar-topic-name{ color:var(--marigold-dim); }
+.grammar-topic-arrow{ color:var(--marigold); transition:transform .18s ease; }
+.grammar-topic[open] .grammar-topic-arrow{ transform:rotate(90deg); }
+.grammar-topic-name{ font-family:'Fraunces', serif; font-size:1.15rem; font-weight:600; color:var(--ink); }
+.grammar-topic-lesson{ font-family:'IBM Plex Mono', monospace; font-size:.75rem; color:var(--ink-soft); }
+.grammar-topic-body{
+  background:var(--board);
+  border-radius:var(--radius);
+  padding:20px;
+  margin:4px 0 18px;
+}
+.grammar-topic-body .grammar-boxes{ margin:0; }
+.grammar-topic-link{
+  display:inline-block;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:.8rem;
+  color:var(--chalk-soft);
+  margin-bottom:14px;
+}
+.grammar-topic-link:hover, .grammar-topic-link:focus-visible{ color:var(--marigold-light); }
+@media (max-width:640px){
+  .grammar-topic summary{ flex-wrap:wrap; row-gap:2px; }
+  .grammar-topic-name{ flex:1; }
+  .grammar-topic-lesson{ flex-basis:100%; padding-left:24px; }
+  .grammar-topic-body{ padding:14px; }
+  .grammar-topic-body .grammar-box{ padding:16px 14px; }
+}
+@media (prefers-reduced-motion: reduce){ .grammar-topic-arrow{ transition:none; } }
