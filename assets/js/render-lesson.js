@@ -718,30 +718,45 @@ function renderFillBlankSection(root, fillBlank, number, idSuffix) {
   root.appendChild(section);
 }
 
+function renderSiteMenu() {
+  const wrap = document.createElement("div");
+  wrap.className = "lessons-menu site-menu";
+  wrap.innerHTML = `
+    <button type="button" class="lessons-menu-toggle breadcrumb site-menu-toggle" aria-haspopup="true" aria-expanded="false" aria-label="Menú del sitio">☰</button>
+    <div class="lessons-menu-panel" hidden>
+      <nav class="site-menu-list" aria-label="Sitio">
+        <a class="lessons-menu-item" href="../index.html">Inicio</a>
+        <a class="lessons-menu-item" href="../vocabulary.html">Vocabulario</a>
+        <a class="lessons-menu-item" href="../grammar.html">Gramática</a>
+      </nav>
+    </div>
+  `;
+  const toggle = wrap.querySelector(".site-menu-toggle");
+  const panel = wrap.querySelector(".lessons-menu-panel");
+  function setOpen(open) {
+    panel.hidden = !open;
+    toggle.setAttribute("aria-expanded", String(open));
+  }
+  toggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    setOpen(panel.hidden);
+  });
+  document.addEventListener("click", (e) => {
+    if (!wrap.contains(e.target)) setOpen(false);
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") setOpen(false);
+  });
+  return wrap;
+}
+
 function renderTopbar(root, lesson) {
   const topbar = document.createElement("div");
   topbar.className = "topbar";
   const nav = document.createElement("div");
   nav.className = "topbar-nav";
-  const back = document.createElement("a");
-  back.className = "breadcrumb breadcrumb-back";
-  back.href = "../index.html";
-  back.setAttribute("aria-label", "Volver a lecciones");
-  back.innerHTML = `<span aria-hidden="true">←</span><span class="breadcrumb-label"> Volver a lecciones</span>`;
-  nav.appendChild(back);
   nav.appendChild(renderLessonsMenu(lesson?.level));
-
-  const vocabLink = document.createElement("a");
-  vocabLink.className = "breadcrumb";
-  vocabLink.href = "../vocabulary.html";
-  vocabLink.textContent = "Vocabulario";
-  nav.appendChild(vocabLink);
-
-  const grammarLink = document.createElement("a");
-  grammarLink.className = "breadcrumb";
-  grammarLink.href = "../grammar.html";
-  grammarLink.textContent = "Gramática";
-  nav.appendChild(grammarLink);
+  nav.appendChild(renderSiteMenu());
 
   const speedToggle = document.createElement("button");
   speedToggle.className = "speed-toggle";

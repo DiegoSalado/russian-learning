@@ -212,11 +212,21 @@ button{font-family:inherit;}
   letter-spacing:.04em;
   color:var(--mint);
 }
+.site-menu-toggle{ font-size:1.15rem; line-height:1; }
+.site-menu-list{
+  display:flex;
+  flex-direction:column;
+  min-width:180px;
+  padding:8px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
 @media (max-width:640px){
   .lessons-menu-panel-inner{ min-width:0; width:100%; max-width:100%; flex-direction:column; }
   .lessons-menu-levels{ flex-direction:row; flex-wrap:wrap; min-width:0; border-right:none; border-bottom:1px solid var(--line); }
   .lessons-menu-list{ max-height:45vh; }
-  .breadcrumb-back .breadcrumb-label{ display:none; }
 }
 .speed-toggle{
   display:flex; align-items:center; gap:8px;
