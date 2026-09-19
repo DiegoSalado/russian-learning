@@ -1,6 +1,6 @@
 import { speak, stopSpeaking, getRate, toggleRate, supportsSpeech } from "./speech.js";
 import { levels, lessonsIndex } from "../../content/lessons-index.js";
-import { toFlashcardEntries } from "./render-flashcards.js";
+import { toFlashcardEntries, shuffle } from "./render-flashcards.js";
 import { runStudy } from "./render-study.js";
 
 export function waveHTML() {
@@ -618,7 +618,8 @@ function renderFillBlankSection(root, fillBlank, number, idSuffix) {
 
   function buildBank() {
     bankEl.innerHTML = "";
-    fillBlank.wordBank.forEach((w) => {
+    // Orden aleatorio: si no, la caja copia el orden de las oraciones y delata las respuestas.
+    shuffle(fillBlank.wordBank).forEach((w) => {
       const chip = document.createElement("div");
       chip.className = "fillblank-chip";
       chip.draggable = true;
